@@ -1,0 +1,27 @@
+[project]
+name = "tsc-llm-rules"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "femartip",email = "felix.marti99@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.13,<3.15"
+dependencies = [
+    "matplotlib (>=3.10.8,<4.0.0)",
+    "openai (>=2.14.0,<3.0.0)",
+    "numpy (>=2.3.5,<3.0.0)",
+    "dotenv (>=0.9.9,<0.10.0)",
+    "pandas (>=2.3.3,<3.0.0)",
+    "scikit-learn (==1.7)",
+    "scikit-learn-extra (>=0.3.0,<0.4.0)",
+    "tslearn (>=0.7.0,<0.8.0)",
+    "torcheval (>=0.0.7,<0.0.8)",
+    "sklearn-time (>=0.0.1,<0.0.2)",
+    "sktime (>=0.40.1,<0.41.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
