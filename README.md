@@ -7,36 +7,36 @@ This repo is connected to the Obsidian project note:
 
 ## Idea (high level)
 
-Use an LLM as a "rule synthesizer" to produce **simple, human-readable decision rules** for time series classification.
+Use an LLM as a **rule synthesizer** to produce simple, human-readable decision rules for time series classification.
 
 Typical setup:
-- Provide the LLM with a small set of **prototypes/examples** from each class
-- Ask it to generate either:
+- select a small set of **prototypes/examples** per class
+- prompt an LLM to produce either:
   - a natural-language rule, or
   - minimal Python code implementing the rule
-- Evaluate the rule on a held-out sample of time series and measure:
-  - **accuracy**
-  - **coverage** (how often the rule applies)
-  - **confidence** (consistency)
-  - **simplicity** (rule complexity)
+- evaluate that rule on held-out samples
+
+Metrics you care about (from the Obsidian note):
+- accuracy
+- coverage
+- confidence
+- simplicity
 
 ## Repo layout
 
-- `train_models.py` — trains baseline models / runs experiments (multiple classifier options)
-- `prompt_simplifications.py` — prompting utilities for simpler rules
-- `Utils/` — dataset loading, metrics, plotting, model helpers
-- `data/` — datasets / summaries
-- `results/` — result tables + notebooks
+- `train_models.py` — trains baseline models (CNN, decision tree, logistic regression, etc.)
+- `prompt_simplifications.py` — prompts an LLM with prototype plots and evaluates predictions
+- `Utils/` — dataset loading, metrics, plotting, helpers
+- `data/` — datasets
+- `results/` — result tables/notebooks
 
-## Requirements
+## Installation
 
-- Python `>=3.13,<3.15` (per `pyproject.toml`)
+Python project defined in `pyproject.toml`.
 
-## Install
+- Python: `>=3.13,<3.15`
 
-This is a `pyproject.toml` project.
-
-### Option 1: Poetry
+### Poetry
 
 ```bash
 cd TSC_LLM_rules
@@ -44,40 +44,79 @@ poetry install
 poetry shell
 ```
 
-### Option 2: pip (less reproducible)
+## Data layout (what the code expects)
+
+Datasets live under:
+
+- `data/<DatasetName>/`
+
+And are stored as numpy arrays with the label in the **first column**:
+
+- `data/<DatasetName>/<DatasetName>_TRAIN.npy`
+- `data/<DatasetName>/<DatasetName>_TEST.npy`
+- optionally:
+  - `data/<DatasetName>/<DatasetName>_VALIDATION.npy`
+
+The helper `Utils/load_data.py` loads those files and then removes column 0 for features, and uses column 0 as labels.
+
+If you want normalization, the code expects normalized variants:
+- `<DatasetName>_TRAIN_normalized.npy`, etc.
+
+## Baselines: training models
+
+Run on one dataset:
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -U pip
-pip install -e .
+python train_models.py --datasets Chinatown --model_type cnn --normalized
 ```
 
-## Run (typical)
-
-Train/evaluate baseline models:
+Run on several:
 
 ```bash
-python train_models.py --help
+python train_models.py --datasets Chinatown ECG200 ItalyPowerDemand --model_type decision-tree --normalized
 ```
 
-Generate / simplify prompted rules:
+If you omit `--datasets`, it will run over every folder under `./data/`.
+
+Model types supported in the training script include:
+- `cnn`
+- `miniRocket`
+- `decision-tree`
+- `logistic-regression`
+- `knn`
+
+Save trained models and per-dataset metrics:
 
 ```bash
-python prompt_simplifications.py --help
+python train_models.py --datasets Chinatown --model_type cnn --normalized --save_model
 ```
 
-(Exact flags depend on your dataset setup; see the scripts and `Utils/load_data.py`.)
+Saved artifacts (by convention in the code):
+- models under `models/<DatasetName>/...`
+- metrics CSV under `results/<DatasetName>/models.csv`
 
-## Results
+## LLM prompting experiments
 
-- Summary CSV: `results/results.csv`
-- Analysis notebook: `results/global_results.ipynb`
+`prompt_simplifications.py` builds a prompt using prototype plots and asks an LLM to classify 10 random test samples.
 
-## Notes
+It expects an `.env` file in repo root with at least:
+- `API_KEY`
+- `API_BASE`
 
-This is research code (in-progress). If you want this to be fully reproducible, the next step is to document:
-- which datasets are expected under `data/`
-- how prototypes are selected
-- what the exact prompt formats are
-- what evaluation split is used
+Run:
+
+```bash
+python prompt_simplifications.py --dataset Chinatown --classifier cnn --llm gpt4o --k 3
+```
+
+Options:
+- `--interactive` prints the prompt structure and pauses between steps.
+
+## What I intentionally did NOT include here
+
+- A promise of reproducibility across machines (LLM endpoints + API_BASE make this environment-specific)
+- A single "official" dataset list (the scripts can run on any dataset that follows the `data/<name>/<name>_*.npy` convention)
+
+If you want, next step is to add:
+- a `scripts/download_ucr.sh` (or similar) to fetch datasets automatically,
+- a single `run_all.sh` that produces a consolidated `results/results.csv`.
