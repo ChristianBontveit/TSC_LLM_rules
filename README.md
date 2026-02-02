@@ -1,9 +1,6 @@
 # TSC_LLM_rules
 
-Research code for **rule-based interpretability of Time Series Classification (TSC)** with help from Large Language Models (LLMs).
-
-This repo is connected to the Obsidian project note:
-- `~/Documents/Obsedian/Side Research/XAI_TS/Rule-based Interpretability of TSC with LLMs.md`
+Research code for **rule-based interpretability of Time Series Classification (TSC)** with Large Language Models (LLMs).
 
 ## Idea (high level)
 
@@ -12,15 +9,13 @@ Use an LLM as a **rule synthesizer** to produce simple, human-readable decision 
 Typical setup:
 - select a small set of **prototypes/examples** per class
 - prompt an LLM to produce either:
-  - a natural-language rule, or
-  - minimal Python code implementing the rule
+  - a natural-language rule
 - evaluate that rule on held-out samples
 
-Metrics you care about (from the Obsidian note):
+Metrics you care about:
 - accuracy
 - coverage
-- confidence
-- simplicity
+- complexity
 
 ## Repo layout
 
@@ -44,7 +39,7 @@ poetry install
 poetry shell
 ```
 
-## Data layout (what the code expects)
+## Data layout
 
 Datasets live under:
 
@@ -111,12 +106,3 @@ python prompt_simplifications.py --dataset Chinatown --classifier cnn --llm gpt4
 
 Options:
 - `--interactive` prints the prompt structure and pauses between steps.
-
-## What I intentionally did NOT include here
-
-- A promise of reproducibility across machines (LLM endpoints + API_BASE make this environment-specific)
-- A single "official" dataset list (the scripts can run on any dataset that follows the `data/<name>/<name>_*.npy` convention)
-
-If you want, next step is to add:
-- a `scripts/download_ucr.sh` (or similar) to fetch datasets automatically,
-- a single `run_all.sh` that produces a consolidated `results/results.csv`.
