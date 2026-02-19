@@ -101,8 +101,21 @@ It expects an `.env` file in repo root with at least:
 Run:
 
 ```bash
-python prompt_simplifications.py --dataset Chinatown --classifier cnn --llm gpt4o --k 3
+python prompt_simplifications.py --dataset Chinatown --classifier cnn --llm gpt4o --k 3 
 ```
 
 Options:
 - `--interactive` prints the prompt structure and pauses between steps.
+
+## LLM Rules for TSC
+
+`llm_rules_tsc.py` prompts an LLM to create subrules for each class using prototype plots and asks an LLM to classify 10 random test samples using these rules.
+
+It expects an `.env` file in repo root with at least:
+- `API_KEY`
+
+Run:
+
+```bash
+python llm_rules_tsc.py --dataset Chinatown --classifier cnn --llm gpt-5.1 --k 3 --rules 2
+```
