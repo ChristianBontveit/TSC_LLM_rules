@@ -33,7 +33,7 @@ def get_response(prompt: list[dict], model:str):
     return response.choices[0].message.content
 
 ### NEW PROMPT BUILDERS FOR RULE EXTRACTION AND CLASSIFICATION WITH RULES
-def build_rule_prompt(images: list[str], num_labels: int):
+def build_rule_prompt(images: list[str], num_labels: int, n_rules: int):
     labels = range(0, num_labels)
     classes = ", ".join(map(str, labels))
 
@@ -48,7 +48,7 @@ def build_rule_prompt(images: list[str], num_labels: int):
         Output only the rules.
         Structure each rule so that it is composed of sub-rules enumerated as R1, R2.
         Each sub-rule only covers one condition.
-        Use at most 2 sub-rules per class.
+        Use at most {n_rules} sub-rules per class.
 
         Use the following format for your answer:
 
@@ -153,8 +153,8 @@ def simp_ts_to_img(dataset_ts: np.ndarray, dataset_ts_labels: list[int], test_ts
     return k_img, test_sample
 
 ### NEW FUNCTIONS FOR RULE EXTRACTION AND CLASSIFICATION WITH RULES
-def extract_rule(llm_model: str, k_img: list[str], labels: int):
-    prompt = build_rule_prompt(k_img, labels)
+def extract_rule(llm_model: str, k_img: list[str], labels: int, n_rules: int):
+    prompt = build_rule_prompt(k_img, labels, n_rules)
     rule = get_response(prompt, llm_model)
     return rule
 
@@ -178,13 +178,14 @@ def argparser():
     parser.add_argument('--classifier', type=str, default="cnn", help="Classifier to compare with." )
     parser.add_argument('--llm', type=str, default="google/gemma-3-27b-it:free",help="LLM within the OpenAI API. Models supported: gpt4o, o4-mini, gpt-4.1 and o3")
     parser.add_argument('--k', type=int, default=3, help="Number of total examples to use.")
+    parser.add_argument('--rules', type=int, default=2, help="Number of LLM generated classification rules")
     parser.add_argument('--interactive', action='store_true', help='Make code interactive')
     return parser.parse_args()
     
 if __name__ == '__main__':
     args = argparser()
     assert args.llm in ["gpt-4o", "gpt-4o-mini", "gpt-4.1", "o3", "gpt-5.1", ], "Invalid model type"
-    print(f"Testing {args.dataset } for classifier {args.classifier} on LLM {args.llm}")
+    print(f"Testing {args.dataset } for classifier {args.classifier} on LLM {args.llm} using {args.rules} LLM rules")
     global INTERACTIVE
     INTERACTIVE = True if args.interactive else False
     steps = 1
@@ -203,9 +204,8 @@ if __name__ == '__main__':
     step_results = []
     for i in range(steps):
         prot_img_simp, test_img_simp = simp_ts_to_img(prototipes_ts_norm, dataset_ts_labels, test_ts_norm)
-        # out = prompt_model(args.llm, prot_img_simp, test_img_simp, test_ts_labels, len(set(prot_labels)))
         # extract rule
-        rule = extract_rule(args.llm, prot_img_simp, len(set(prot_labels)))
+        rule = extract_rule(args.llm, prot_img_simp, len(set(prot_labels)), args.rules)
         
         print("Extracted Rule:\n", rule)
         
@@ -218,16 +218,14 @@ if __name__ == '__main__':
             len(set(prot_labels))
         )
 
-        print("\n" + "="*30)
-        print("CLASSIFICATION RESULTS")
-        print("="*30)
+        print("\n")
         
         # table
-        print(f"{'Instance':<10} | {'True Label':<10} | {'Predicted':<10} | {'Status':<10}")
-        print("-" * 50)
-        for idx, (true_l, pred_l) in enumerate(zip(test_ts_labels, preds)):
+        print(f"{'Instance':<10} | {'True Label':<10} | {'Predicted':<10} | {'Status':<10} | {'TS Idx':<10}")
+        print("-" * 70)
+        for idx, (true_l, pred_l, ts_idx) in enumerate(zip(test_ts_labels, preds, rand_ts_idx)):
             status = "MATCH" if true_l == pred_l else "MISMATCH"
-            print(f"{idx+1:<10} | {true_l:<10} | {pred_l:<10} | {status:<10}")
+            print(f"{idx+1:<10} | {true_l:<10} | {pred_l:<10} | {status:<10} | {ts_idx:<10}")
         
-        print("-" * 50)
+        print("-" * 70)
         print(f"Final Accuracy: {accuracy * 100}%")
