@@ -8,6 +8,7 @@ from dotenv import load_dotenv, dotenv_values
 from Utils.load_models import model_batch_classify
 from Utils.selectPrototypes import select_prototypes
 from Utils.load_data import load_dataset, load_dataset_labels, normalize_data
+from Utils.save_llm_results import save_results
 import openai
 from openai import OpenAI
 import matplotlib
@@ -229,3 +230,6 @@ if __name__ == '__main__':
         
         print("-" * 70)
         print(f"Final Accuracy: {accuracy * 100}%")
+
+        # save results as json file in results as "llm_rules_results"
+        save_results(args, rule, accuracy, preds, test_ts_labels, rand_ts_idx)
