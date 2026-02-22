@@ -117,5 +117,10 @@ It expects an `.env` file in repo root with at least:
 Run:
 
 ```bash
-python llm_rules_tsc.py --dataset Chinatown --classifier cnn --llm gpt-5.1 --k 3 --rules 2
+python llm_rules_tsc.py --dataset Chinatown --classifier miniRocket --llm gpt-5.1 --k 3 --rules 2
 ```
+
+Reading the results from the jsonl
+- Each line represents a complete run of n = 10
+- It is represented as such:
+  - {"dataset": "Chinatown", "classifier": "miniRocket", "llm": "gpt-5.1", "k": 3, "num_rules": 3, "accuracy": 0.6, "extracted_rules": {...}, "instance": [{"instance_id": 1, "ts_idx": 93, "true_label": 1, "predicted_label": 1, "status": "MATCH"}]}
