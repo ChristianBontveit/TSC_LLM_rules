@@ -44,7 +44,7 @@ def build_rule_prompt(images: list[str], num_labels: int, n_rules: int):
 
         You are a time-series classification expert. You are given labeled examples for classes {classes}.
 
-        There are three prototypes for each of the two classes (R, B).
+        There are three prototypes for each of two classes.
         I want you to provide me , a human-understandable rule for each class.
         Output only the rules.
         Structure each rule so that it is composed of sub-rules enumerated as R1, R2.
