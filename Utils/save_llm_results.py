@@ -35,5 +35,7 @@ def save_results(args, rule_txt, acc, preds, test_ts_labels, rand_ts_idx):
 
     os.makedirs("results", exist_ok=True)
 
-    with open("results/llm_rules_results.jsonl", "a") as f:
+    filename = f"results/llm_rules_results_{args.dataset}_{args.mode}.jsonl"
+
+    with open(filename, "a") as f:
         f.write(json.dumps(run_data) + "\n")
