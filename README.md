@@ -120,6 +120,9 @@ Run:
 python llm_rules_tsc.py --dataset Chinatown --classifier miniRocket --llm gpt-5.1 --k 3 --rules 2
 ```
 
+Options:
+- `--mode` choose between gathering baseline, rulebased or noPrototype results.
+
 Reading the results from the jsonl
 - Each line represents a complete run of n = 10
 - It is represented as such:
