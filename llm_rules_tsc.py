@@ -14,6 +14,9 @@ from openai import OpenAI
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt 
+import warnings
+from sklearn.exceptions import InconsistentVersionWarning
+warnings.filterwarnings("ignore", category=InconsistentVersionWarning)
 
 load_dotenv()
 
@@ -34,68 +37,53 @@ def get_response(prompt: list[dict], model:str):
     return response.choices[0].message.content
 
 ### baseline experiment no rules
-def build_prompt(images: list[str], test_samples: list[str], num_labels: int, print_prompt:bool=False) -> list[dict]:
+def build_baseline_prompt(images: list[str], test_samples: list[str], num_labels: int) -> list[dict]:
     labels = range(0, num_labels)
-    num_images = len(images)
-    num_images_per_label = int(num_images/2)
-    
     classes = ", ".join(map(str, labels))
-    prompt = [
-        {"type": "text", "text": f"""You are a time-series classification expert. Your goal is to learn from a small set of labeled examples (classes {classes}) and then assign the correct class to a new, unlabeled time series. 
-         Follow these steps:
-         1.Carefully examine the {classes} examples of classes {classes} and identify their common patterns.
-         2.Compare the new instance to your learned characteristics of classes {classes}.
-         3.Provide a brief rationale for your decision.
-         4.Conclude with one line stating only the predicted class for each one of the unlabeled examples.
-         5. Only use the pattern (Predicted class: {classes}) for each one of the unlabeled examples exclusively in the final guess.
-         Remember that I will always provide you with 10 unlabeled examples. Therefore, you need to perform exactly 10 predictions.
-         The examples:"""}
-    ]
-    for label in labels:
-        images_label = images[:num_images_per_label]
-        images = images[num_images_per_label:]
-        images_dict = [{"type": "text", "text": f"Class {label} examples ({num_images_per_label} time-series plots labeled “{label}”) "}] + \
-                      [{"type": "image_url", "image_url": {"url": data_url}} for data_url in images_label]
-        prompt.extend(images_dict) #type:ignore
-
-    test = [{"type": "text", "text": "New instances to classify (unlabeled time-series plot)"}] + [{"type": "image_url", "image_url": {"url": data_url}} for data_url in test_samples] + [{"type": "text", "text": "Now, classify the new instances."}]
-    prompt.extend(test) #type: ignore
+    num_images_per_label = len(images) // num_labels
     
-    if INTERACTIVE:
-        print("----------------------------------------------")
-        for text in prompt:
-            if text["type"] == "text":
-                print(text["text"])
-            elif text["type"] == "image_url":
-                print("$IMAGE$")
-        print("----------------------------------------------")
-        input("Press Enter to continue...")
+    prompt = [
+        {"type": "text", "text": f"""You are a time-series classification expert. 
+         Your goal is to learn from labeled examples (classes {classes}) and classify the new instances.
+         
+         1. Examine the labeled examples to identify class-specific patterns.
+         2. Compare the new, unlabeled instances to the characteristics of classes {classes}.
+         3. Provide a brief rationale for your classification.
+         4. Conclude with exactly {len(test_samples)} lines, one for each test instance, in the format: "Predicted class: <label>"."""}
+    ]
+    
+    remaining_images = list(images)
+    
+    for label in labels:
+        images_label = remaining_images[:num_images_per_label]
+        remaining_images = remaining_images[num_images_per_label:]
+        
+        prompt.append({"type": "text", "text": f"Class {label} examples ({len(images_label)} time-series plots):"})
+        prompt.extend([
+            {"type": "image_url", "image_url": {"url": img}} for img in images_label
+        ])
+
+    prompt.append({"type": "text", "text": "New instances to classify (unlabeled):"})
+    prompt.extend([
+        {"type": "image_url", "image_url": {"url": ts}} for ts in test_samples
+    ])
+    
     return prompt
 
-def prompt_model(llm_model: str, k_img: list[str], test_sample: list[str], test_ts_label: list[int], labels: int) -> float:
-    prompt = build_prompt(k_img, test_samples= test_sample, num_labels=labels, print_prompt=DEBUG)
-
+def prompt_baseline_model(llm_model: str, k_img: list[str], test_sample: list[str], test_labels: list[int], num_labels: int):
+    # Build prompt
+    prompt = build_baseline_prompt(k_img, test_sample, num_labels)
     response = get_response(prompt, llm_model)
-    #print(response)
 
+    # Regex parse
     pattern = r"Predicted class:\s+(\d+)"
-    predicted_labels_str = re.findall(pattern, str(response))
-    predicted_labels_int = [int(label) for label in predicted_labels_str]
-    if len(predicted_labels_int) == 1:
-        predicted_labels_int = np.full(10, predicted_labels_int[0])
-    if len(predicted_labels_int) == 20:
-        predicted_labels_int = predicted_labels_int[0:10]
-    acc_length = min(len(test_ts_label), len(predicted_labels_int))
-    accuracy = sum([1 if test_ts_label[i] == predicted_labels_int[i] else 0 for i in range(acc_length)])/acc_length
-    
-    if INTERACTIVE:
-        print(f"------------------------------------------\n")
-        print(response)
-        print(f"Real label {test_ts_label}, predicted label {predicted_labels_int} = {accuracy}")
-        print("\n------------------------------------------")
-        input("Press Enter to continue...")
-    #print(f"Real label {test_ts_label}, predicted label {predicted_labels_int} = {accuracy}")
-    return accuracy
+    preds = [int(x) for x in re.findall(pattern, response)]
+
+    # Calculate accuracy
+    count = min(len(test_labels), len(preds))
+    acc = sum(1 for i in range(count) if preds[i] == test_labels[i]) / len(test_labels)
+
+    return acc, preds
 
 ### PROMPT BUILDERS FOR RULE EXTRACTION AND CLASSIFICATION WITH RULES
 def build_rule_prompt(images: list[str], num_labels: int, n_rules: int):
@@ -217,6 +205,34 @@ def simp_ts_to_img(dataset_ts: np.ndarray, dataset_ts_labels: list[int], test_ts
 
     return k_img, test_sample
 
+### selecy random timeseries for no prototype run
+def select_random_timeseries(dataset_name: str, num_instances: int, data_type: str="TEST_normalized") -> np.ndarray:
+    # Load dataset and labels
+    X_data = load_dataset(dataset_name=dataset_name, data_type=data_type)
+    labels = np.array(load_dataset_labels(dataset_name=dataset_name, data_type=data_type))
+    
+    unique_labels = np.unique(labels)
+    prototypes_list = []
+
+    # For each label, pick random samples
+    for label in unique_labels:
+        mask = labels == label
+        X_label = X_data[mask]
+        
+        if len(X_label) < num_instances:
+            continue  # Skip if not enough samples
+        
+        # Instead of KMedoids, we just pick indices at random
+        rand_indices = np.random.choice(X_label.shape[0], num_instances, replace=False)
+        prototypes = X_label[rand_indices]
+        prototypes_list.append(prototypes)
+
+    # Return
+    if prototypes_list:
+        return np.concatenate(prototypes_list)
+    else:
+        return np.array([])
+
 ### NEW FUNCTIONS FOR RULE EXTRACTION AND CLASSIFICATION WITH RULES
 def extract_rule(llm_model: str, k_img: list[str], labels: int, n_rules: int):
     prompt = build_rule_prompt(k_img, labels, n_rules)
@@ -235,7 +251,7 @@ def classify_with_rule(llm_model: str, rule: str, test_img: list[str], test_labe
         if i < len(predicted_labels) and predicted_labels[i] == test_labels[i]
     ) / len(test_labels)
 
-    return acc, predicted_labels, response
+    return acc, predicted_labels
 
 def argparser():
     parser = argparse.ArgumentParser()
@@ -244,57 +260,52 @@ def argparser():
     parser.add_argument('--llm', type=str, default="google/gemma-3-27b-it:free",help="LLM within the OpenAI API. Models supported: gpt4o, o4-mini, gpt-4.1 and o3")
     parser.add_argument('--k', type=int, default=3, help="Number of total examples to use.")
     parser.add_argument('--rules', type=int, default=2, help="Number of LLM generated classification rules")
-    parser.add_argument('--interactive', action='store_true', help='Make code interactive')
-    parser.add_argument('--mode', type=str, default="rulebased", choices=["rulebased", "baseline", "noprototype"],help="Mode of the experiment.")
+    parser.add_argument('--mode', type=str, default="rulebased", choices=["rulebased", "baseline", "noPrototype"], help="Mode of the experiment.")
     return parser.parse_args()
     
 if __name__ == '__main__':
     args = argparser()
     assert args.llm in ["gpt-4o", "gpt-4o-mini", "gpt-4.1", "o3", "gpt-5.1", ], "Invalid model type"
-    print(f"Testing {args.dataset } for classifier {args.classifier} on LLM {args.llm} using {args.rules} LLM rules")
-    global INTERACTIVE
-    INTERACTIVE = True if args.interactive else False
-    steps = 1
+    print(f"Testing {args.mode} using {args.dataset } for classifier {args.classifier} on LLM {args.llm} using {args.rules} LLM rules")
+
+    rule = "Baseline (No rules)"
         
     train_ts_norm = load_dataset(args.dataset, data_type="TRAIN_normalized")
-    prototipes_ts_norm = select_prototypes(args.dataset, num_instances=args.k, data_type="TRAIN_normalized") 
-    prot_labels = np.array(load_dataset_labels(args.dataset, data_type='TEST_normalized'))
     test_ts_norm = load_dataset(args.dataset, data_type="TEST_normalized")
     rand_ts_idx = np.random.randint(0, test_ts_norm.shape[0], size=(10))
     test_ts_norm = test_ts_norm[rand_ts_idx]
-    
+
+    if args.mode in ["rulebased", "baseline"]:
+        prototipes_ts_norm = select_prototypes(args.dataset, num_instances=args.k, data_type="TRAIN_normalized") 
+    elif args.mode == "noPrototype":
+        prototipes_ts_norm = select_random_timeseries(args.dataset, num_instances=args.k, data_type="TRAIN_normalized")  
+
+    prot_labels = np.array(load_dataset_labels(args.dataset, data_type='TEST_normalized'))
     classifier_file = f"{args.classifier}_norm.pth" if args.classifier == "cnn" else f"{args.classifier}_norm.pkl"
     dataset_ts_labels = model_batch_classify(f"./models/{args.dataset}/{classifier_file}", prototipes_ts_norm, len(set(prot_labels)))   #type: ignore
     test_ts_labels = model_batch_classify(f"./models/{args.dataset}/{classifier_file}", test_ts_norm, len(set(prot_labels)))  #type: ignore
-    
-    step_results = []
-    for i in range(steps):
-        prot_img_simp, test_img_simp = simp_ts_to_img(prototipes_ts_norm, dataset_ts_labels, test_ts_norm)
-        # extract rule
+    prot_img_simp, test_img_simp = simp_ts_to_img(prototipes_ts_norm, dataset_ts_labels, test_ts_norm)
+        
+    if args.mode == "baseline":
+        accuracy, preds = prompt_baseline_model(args.llm, prot_img_simp, test_img_simp, test_ts_labels, len(set(prot_labels)))
+    elif args.mode in ["rulebased", "noPrototype"]:
         rule = extract_rule(args.llm, prot_img_simp, len(set(prot_labels)), args.rules)
-        
         print("Extracted Rule:\n", rule)
-        
-        # classify using rule
-        accuracy, preds, raw_output = classify_with_rule(
-            args.llm,
-            rule,
-            test_img_simp,
-            test_ts_labels,
-            len(set(prot_labels))
-        )
+        accuracy, preds = classify_with_rule(args.llm, rule, test_img_simp, test_ts_labels, len(set(prot_labels)))
+    else:
+        raise ValueError(f"Unknown mode: {args.mode}")        
 
-        print("\n")
+    print("\n")
         
-        # table
-        print(f"{'Instance':<10} | {'True Label':<10} | {'Predicted':<10} | {'Status':<10} | {'TS Idx':<10}")
-        print("-" * 70)
-        for idx, (true_l, pred_l, ts_idx) in enumerate(zip(test_ts_labels, preds, rand_ts_idx)):
-            status = "MATCH" if true_l == pred_l else "MISMATCH"
-            print(f"{idx+1:<10} | {true_l:<10} | {pred_l:<10} | {status:<10} | {ts_idx:<10}")
+    # table
+    print(f"{'Instance':<10} | {'True Label':<10} | {'Predicted':<10} | {'Status':<10} | {'TS Idx':<10}")
+    print("-" * 70)
+    for idx, (true_l, pred_l, ts_idx) in enumerate(zip(test_ts_labels, preds, rand_ts_idx)):
+        status = "MATCH" if true_l == pred_l else "MISMATCH"
+        print(f"{idx+1:<10} | {true_l:<10} | {pred_l:<10} | {status:<10} | {ts_idx:<10}")
         
-        print("-" * 70)
-        print(f"Final Accuracy: {accuracy * 100}%")
+    print("-" * 70)
+    print(f"Final Accuracy: {accuracy * 100}%")
 
-        # save results as json file in results as "llm_rules_results"
-        save_results(args, rule, accuracy, preds, test_ts_labels, rand_ts_idx)
+    # save results as json file in results as "llm_rules_results"
+    save_results(args, rule, accuracy, preds, test_ts_labels, rand_ts_idx)
