@@ -33,7 +33,71 @@ def get_response(prompt: list[dict], model:str):
     )
     return response.choices[0].message.content
 
-### NEW PROMPT BUILDERS FOR RULE EXTRACTION AND CLASSIFICATION WITH RULES
+### baseline experiment no rules
+def build_prompt(images: list[str], test_samples: list[str], num_labels: int, print_prompt:bool=False) -> list[dict]:
+    labels = range(0, num_labels)
+    num_images = len(images)
+    num_images_per_label = int(num_images/2)
+    
+    classes = ", ".join(map(str, labels))
+    prompt = [
+        {"type": "text", "text": f"""You are a time-series classification expert. Your goal is to learn from a small set of labeled examples (classes {classes}) and then assign the correct class to a new, unlabeled time series. 
+         Follow these steps:
+         1.Carefully examine the {classes} examples of classes {classes} and identify their common patterns.
+         2.Compare the new instance to your learned characteristics of classes {classes}.
+         3.Provide a brief rationale for your decision.
+         4.Conclude with one line stating only the predicted class for each one of the unlabeled examples.
+         5. Only use the pattern (Predicted class: {classes}) for each one of the unlabeled examples exclusively in the final guess.
+         Remember that I will always provide you with 10 unlabeled examples. Therefore, you need to perform exactly 10 predictions.
+         The examples:"""}
+    ]
+    for label in labels:
+        images_label = images[:num_images_per_label]
+        images = images[num_images_per_label:]
+        images_dict = [{"type": "text", "text": f"Class {label} examples ({num_images_per_label} time-series plots labeled “{label}”) "}] + \
+                      [{"type": "image_url", "image_url": {"url": data_url}} for data_url in images_label]
+        prompt.extend(images_dict) #type:ignore
+
+    test = [{"type": "text", "text": "New instances to classify (unlabeled time-series plot)"}] + [{"type": "image_url", "image_url": {"url": data_url}} for data_url in test_samples] + [{"type": "text", "text": "Now, classify the new instances."}]
+    prompt.extend(test) #type: ignore
+    
+    if INTERACTIVE:
+        print("----------------------------------------------")
+        for text in prompt:
+            if text["type"] == "text":
+                print(text["text"])
+            elif text["type"] == "image_url":
+                print("$IMAGE$")
+        print("----------------------------------------------")
+        input("Press Enter to continue...")
+    return prompt
+
+def prompt_model(llm_model: str, k_img: list[str], test_sample: list[str], test_ts_label: list[int], labels: int) -> float:
+    prompt = build_prompt(k_img, test_samples= test_sample, num_labels=labels, print_prompt=DEBUG)
+
+    response = get_response(prompt, llm_model)
+    #print(response)
+
+    pattern = r"Predicted class:\s+(\d+)"
+    predicted_labels_str = re.findall(pattern, str(response))
+    predicted_labels_int = [int(label) for label in predicted_labels_str]
+    if len(predicted_labels_int) == 1:
+        predicted_labels_int = np.full(10, predicted_labels_int[0])
+    if len(predicted_labels_int) == 20:
+        predicted_labels_int = predicted_labels_int[0:10]
+    acc_length = min(len(test_ts_label), len(predicted_labels_int))
+    accuracy = sum([1 if test_ts_label[i] == predicted_labels_int[i] else 0 for i in range(acc_length)])/acc_length
+    
+    if INTERACTIVE:
+        print(f"------------------------------------------\n")
+        print(response)
+        print(f"Real label {test_ts_label}, predicted label {predicted_labels_int} = {accuracy}")
+        print("\n------------------------------------------")
+        input("Press Enter to continue...")
+    #print(f"Real label {test_ts_label}, predicted label {predicted_labels_int} = {accuracy}")
+    return accuracy
+
+### PROMPT BUILDERS FOR RULE EXTRACTION AND CLASSIFICATION WITH RULES
 def build_rule_prompt(images: list[str], num_labels: int, n_rules: int):
     labels = range(0, num_labels)
     classes = ", ".join(map(str, labels))
@@ -44,10 +108,10 @@ def build_rule_prompt(images: list[str], num_labels: int, n_rules: int):
 
         You are a time-series classification expert. You are given labeled examples for classes {classes}.
 
-        There are three prototypes for each of the two classes (R, B).
+        There are three prototypes for each of the classes.
         I want you to provide me , a human-understandable rule for each class.
         Output only the rules.
-        Structure each rule so that it is composed of sub-rules enumerated as R1, R2.
+        Structure each rule so that it is composed of sub-rules enumerated as R1, R2, etc.
         Each sub-rule only covers one condition.
         Use at most {n_rules} sub-rules per class.
 
@@ -181,6 +245,7 @@ def argparser():
     parser.add_argument('--k', type=int, default=3, help="Number of total examples to use.")
     parser.add_argument('--rules', type=int, default=2, help="Number of LLM generated classification rules")
     parser.add_argument('--interactive', action='store_true', help='Make code interactive')
+    parser.add_argument('--mode', type=str, default="rulebased", choices=["rulebased", "baseline", "noprototype"],help="Mode of the experiment.")
     return parser.parse_args()
     
 if __name__ == '__main__':
