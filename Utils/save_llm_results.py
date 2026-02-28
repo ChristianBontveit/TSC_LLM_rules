@@ -34,9 +34,11 @@ def save_results(args, rule_txt, acc, preds, test_ts_labels, rand_ts_idx):
             "status": "MATCH" if true_l == pred_l else "MISMATCH"
         })
 
-    os.makedirs("results", exist_ok=True)
+    output_dir = os.path.join("results", "llm_results")
+    
+    os.makedirs(output_dir, exist_ok=True)
 
-    filename = f"results/llm_rules_results.jsonl"
+    filename = os.path.join(output_dir, f"{args.dataset}_{args.mode}_llm_results.jsonl")
 
     with open(filename, "a") as f:
         f.write(json.dumps(run_data) + "\n")

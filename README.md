@@ -121,9 +121,12 @@ python llm_rules_tsc.py --dataset Chinatown --classifier miniRocket --llm gpt-5.
 ```
 
 Options:
-- `--mode` choose between gathering baseline, rulebased or noPrototype results.
+- `--mode` choose between gathering `baseline`, `rulebased` or `noPrototype` results.
+- `--mode` default mode is `rulebased`.
 
+Results are saved in:
+- `results\llm_results\dataset_mode_llm_results.jsonl` 
 Reading the results from the jsonl
 - Each line represents a complete run of n = 10
 - It is represented as such:
-  - {"dataset": "Chinatown", "classifier": "miniRocket", "llm": "gpt-5.1", "k": 3, "num_rules": 3, "accuracy": 0.6, "extracted_rules": {...}, "instance": [{"instance_id": 1, "ts_idx": 93, "true_label": 1, "predicted_label": 1, "status": "MATCH"}]}
+  - `{"dataset": "Chinatown", "mode": "rulebased", "classifier": "miniRocket", "llm": "gpt-5.1", "k": 3, "num_rules": 3, "accuracy": 0.6, "extracted_rules": {...}, "instance": [{"instance_id": 1, "ts_idx": 93, "true_label": 1, "predicted_label": 1, "status": "MATCH"}]}`
