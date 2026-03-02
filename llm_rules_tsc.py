@@ -134,7 +134,7 @@ def build_rule_prompt(images: list[str], num_labels: int, n_rules: int):
     return prompt
 
 def build_classification_prompt(rule: str, test_samples: list[str]):
-
+    num_samples = len(test_samples)
     prompt = [
         {
         "type": "text",
@@ -143,12 +143,12 @@ def build_classification_prompt(rule: str, test_samples: list[str]):
         
         {rule}
         
-        Apply this rule to classify the 10 new time-series plots below.
+        Apply this rule to classify the {num_samples} new time-series plots below.
         
         Instructions:
         - Follow the rule strictly.
         - Do not invent new criteria.
-        - Provide the final classification for each of the 10 instances.
+        - Provide the final classification for each of the {num_samples} instances.
         - For each prediction, use the exact format: 'Predicted class: X'
         """}
         ]
@@ -272,7 +272,7 @@ if __name__ == '__main__':
         
     train_ts_norm = load_dataset(args.dataset, data_type="TRAIN_normalized")
     test_ts_norm = load_dataset(args.dataset, data_type="TEST_normalized")
-    rand_ts_idx = np.random.randint(0, test_ts_norm.shape[0], size=(10))
+    rand_ts_idx = np.random.randint(0, test_ts_norm.shape[0], size=(10))    # edit size=(n) to change how many to classify per run
     test_ts_norm = test_ts_norm[rand_ts_idx]
 
     if args.mode in ["rulebased", "baseline"]:
