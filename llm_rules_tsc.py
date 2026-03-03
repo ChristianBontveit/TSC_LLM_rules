@@ -253,6 +253,38 @@ def classify_with_rule(llm_model: str, rule: str, test_img: list[str], test_labe
 
     return acc, predicted_labels
 
+### batch classify
+def batch_classify_with_rule(llm_model: str, rule: str, test_imgs: list[str], test_labels: list[int], batch_size: int = 10):
+    all_predicted_labels = []
+    
+    # Process test_imgs in chunks
+    for i in range(0, len(test_imgs), batch_size):
+        chunk_imgs = test_imgs[i : i + batch_size]
+        
+        # Build prompt for just this chunk
+        prompt = build_classification_prompt(rule, chunk_imgs)
+        response = get_response(prompt, llm_model)
+        
+        # Parse predictions for this chunk
+        pattern = r"Predicted class:\s+(\d+)"
+        batch_preds = [int(x) for x in re.findall(pattern, response)]
+
+        # check if LLM got all time series
+        if len(batch_preds) != len(chunk_imgs):
+            print(f"ALIGNMENT ERROR: Expected {len(chunk_imgs)} labels, got {len(batch_preds)}. Padding with -1.")
+            diff = len(chunk_imgs) - len(batch_preds)
+            batch_preds.extend([-1] * diff)
+        
+        # Handle cases where LLM might return fewer/more preds than images
+        # This is a safe way to append what you got
+        all_predicted_labels.extend(batch_preds)
+        
+    # Calculate accuracy across the full list
+    count = min(len(test_labels), len(all_predicted_labels))
+    accuracy = sum(1 for i in range(count) if all_predicted_labels[i] == test_labels[i]) / len(test_labels)
+    
+    return accuracy, all_predicted_labels
+
 def argparser():
     parser = argparse.ArgumentParser()
     parser.add_argument('--dataset', type=str, help="Dataset to feed samples from.")
@@ -272,7 +304,7 @@ if __name__ == '__main__':
         
     train_ts_norm = load_dataset(args.dataset, data_type="TRAIN_normalized")
     test_ts_norm = load_dataset(args.dataset, data_type="TEST_normalized")
-    rand_ts_idx = np.random.randint(0, test_ts_norm.shape[0], size=(10))    # edit size=(n) to change how many to classify per run
+    rand_ts_idx = np.random.randint(0, test_ts_norm.shape[0], size=(100))    # edit size=(n) to change how many to classify per run
     test_ts_norm = test_ts_norm[rand_ts_idx]
 
     if args.mode in ["rulebased", "baseline"]:
@@ -285,15 +317,35 @@ if __name__ == '__main__':
     dataset_ts_labels = model_batch_classify(f"./models/{args.dataset}/{classifier_file}", prototipes_ts_norm, len(set(prot_labels)))   #type: ignore
     test_ts_labels = model_batch_classify(f"./models/{args.dataset}/{classifier_file}", test_ts_norm, len(set(prot_labels)))  #type: ignore
     prot_img_simp, test_img_simp = simp_ts_to_img(prototipes_ts_norm, dataset_ts_labels, test_ts_norm)
-        
+
+    ### old setup    
+    #if args.mode == "baseline":
+    #    accuracy, preds = prompt_baseline_model(args.llm, prot_img_simp, test_img_simp, test_ts_labels, len(set(prot_labels)))
+    #elif args.mode in ["rulebased", "noPrototype"]:
+    #    rule = extract_rule(args.llm, prot_img_simp, len(set(prot_labels)), args.rules)
+    #    print("Extracted Rule:\n", rule)
+    #    accuracy, preds = classify_with_rule(args.llm, rule, test_img_simp, test_ts_labels, len(set(prot_labels)))
+    #else:
+    #    raise ValueError(f"Unknown mode: {args.mode}")   
+
     if args.mode == "baseline":
         accuracy, preds = prompt_baseline_model(args.llm, prot_img_simp, test_img_simp, test_ts_labels, len(set(prot_labels)))
+    
     elif args.mode in ["rulebased", "noPrototype"]:
+        # generate one set of rules
         rule = extract_rule(args.llm, prot_img_simp, len(set(prot_labels)), args.rules)
         print("Extracted Rule:\n", rule)
-        accuracy, preds = classify_with_rule(args.llm, rule, test_img_simp, test_ts_labels, len(set(prot_labels)))
+        
+        # batch classifier
+        accuracy, preds = batch_classify_with_rule(
+            args.llm, 
+            rule, 
+            test_img_simp, 
+            test_ts_labels, 
+            batch_size=10  # adjust size per batch
+        )
     else:
-        raise ValueError(f"Unknown mode: {args.mode}")        
+        raise ValueError(f"Unknown mode: {args.mode}")    
 
     print("\n")
         
