@@ -116,6 +116,10 @@ It expects an `.env` file in repo root with at least:
 
 Run:
 
+Variables which affect how many classifications, both found in main loop.
+- `rand_ts_idx = np.random.randint(0, test_ts_norm.shape[0], size=(100))    # edit size=(n) to change how many to classify per run` 
+- `batch_size=10  # adjust size per batch`
+
 ```bash
 python llm_rules_tsc.py --dataset Chinatown --classifier miniRocket --llm gpt-5.1 --k 3 --rules 2
 ```
