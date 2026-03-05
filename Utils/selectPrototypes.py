@@ -4,7 +4,7 @@ import numpy as np
 from tslearn.metrics import dtw
 
 
-def select_prototypes(dataset_name: str, num_instances: int, data_type: str="TEST_normalized") -> np.ndarray:
+def select_prototypes(dataset_name: str, num_instances: int, data_type: str="TEST_normalized", metric=dtw) -> np.ndarray:
     # 1. Load dataset and labels
     X_test = load_dataset(dataset_name=dataset_name, data_type=data_type)
     labels_test = load_dataset_labels(dataset_name=dataset_name, data_type=data_type)
@@ -19,7 +19,7 @@ def select_prototypes(dataset_name: str, num_instances: int, data_type: str="TES
         X_label = X_test[mask]
         if len(X_label) < num_instances:
             continue  # Skip if not enough samples for clustering
-        km = KMedoids(n_clusters=num_instances, metric=dtw, init="random", random_state=42)  # type: ignore
+        km = KMedoids(n_clusters=num_instances, metric=metric, init="random", random_state=42)  # type: ignore
         km.fit(X_label)
         medoid_indices = km.medoid_indices_
         prototypes = X_label[medoid_indices]
