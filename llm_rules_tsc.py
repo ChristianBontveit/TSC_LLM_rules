@@ -285,6 +285,43 @@ def batch_classify_with_rule(llm_model: str, rule: str, test_imgs: list[str], te
     
     return accuracy, all_predicted_labels
 
+### rule swap
+
+def swap_rules_robust(rules_text: str) -> str:
+    # 1. Regex to split the text into list of (Header, Content) tuples
+    # Matches "Class X:" and the following text
+    pattern = r"(Class \d+:)(.*?)(?=Class \d+:|$)"
+    matches = re.findall(pattern, rules_text, re.DOTALL)
+    
+    if len(matches) < 2:
+        return rules_text
+
+    # 2. Extract content and labels
+    headers = [m[0] for m in matches]
+    contents = [m[1] for m in matches]
+    
+    # 3. Swap the contents, but keep the headers in their original order
+    # This puts Class 0's content under Class 1's header, and vice-versa
+    swapped_text = f"{headers[0]}{contents[1]}\n\n{headers[1]}{contents[0]}"
+    
+    return swapped_text
+
+UMD_rule = '''Class 0:
+R1: There is one long plateau where the value is clearly lower than its typical baseline level.  
+R2: On at least one side of this low plateau, the series returns to the baseline and briefly overshoots it with a sharp high peak.  
+R3: Outside the low plateau (beginning and end of the series), the values stay roughly around the same baseline level.
+
+Class 1:
+R1: There is one long plateau where the value is clearly higher than its typical baseline level.  
+R2: Before this high plateau, the series stays near a lower, roughly constant baseline.  
+R3: After this high plateau, the series drops back to a similar lower baseline and stays there without any extra sharp peaks.
+
+Class 2:
+R1: There is one long plateau where the value is clearly lower than its typical baseline level.
+R2: Outside this low plateau, the series is mostly at a higher, roughly constant baseline.
+R3: In addition to the main low plateau, there is at least one extra sharp dip or valley that goes noticeably below the surrounding values.
+'''
+
 def argparser():
     parser = argparse.ArgumentParser()
     parser.add_argument('--dataset', type=str, help="Dataset to feed samples from.")
@@ -308,7 +345,7 @@ if __name__ == '__main__':
     test_ts_norm = test_ts_norm[rand_ts_idx]
 
     if args.mode in ["rulebased", "baseline"]:
-        prototipes_ts_norm = select_prototypes(args.dataset, num_instances=args.k, data_type="TRAIN_normalized") 
+        prototipes_ts_norm = select_prototypes(args.dataset, num_instances=args.k, data_type="TRAIN_normalized") # change metric to preferred distance measure (dtw, euclidean, etc), metric="euclidean"
     elif args.mode == "noPrototype":
         prototipes_ts_norm = select_random_timeseries(args.dataset, num_instances=args.k, data_type="TRAIN_normalized")  
 
@@ -335,6 +372,29 @@ if __name__ == '__main__':
         # generate one set of rules
         rule = extract_rule(args.llm, prot_img_simp, len(set(prot_labels)), args.rules)
         print("Extracted Rule:\n", rule)
+
+        # print("\n")
+
+        # # Before classify_with_rule...
+        # original_rule = rule
+        # rule = swap_rules_robust(rule)
+
+        # print('swapped rule:\n', rule)
+
+        # # Verify
+        # if original_rule == rule:
+        #     print("CRITICAL: The swap did not happen!")
+        # else:
+        #     print("SUCCESS: Rules have been swapped.")
+
+        ### UMD rule
+        # org_rule = rule
+        # rule = UMD_rule
+
+        # print("\n")
+
+        # print('UMD rule:\n', rule)
+
         
         # batch classifier
         accuracy, preds = batch_classify_with_rule(
