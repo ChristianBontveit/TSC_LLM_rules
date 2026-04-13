@@ -8,7 +8,7 @@ from dotenv import load_dotenv, dotenv_values
 from Utils.load_models import model_batch_classify
 from Utils.selectPrototypes import select_prototypes
 from Utils.load_data import load_dataset, load_dataset_labels, normalize_data
-from Utils.save_llm_results import save_results
+from Utils.save_llm_results import save_raw_outputs_txt, save_results
 import openai
 from openai import OpenAI
 import matplotlib
@@ -80,7 +80,7 @@ def prompt_baseline_model(llm_model: str, k_img: list[str], test_sample: list[st
     count = min(len(test_labels), len(preds))
     acc = sum(1 for i in range(count) if preds[i] == test_labels[i]) / len(test_labels)
 
-    return acc, preds
+    return acc, preds, response
 
 ### PROMPT BUILDERS FOR RULE EXTRACTION AND CLASSIFICATION WITH RULES
 def build_rule_prompt(images: list[str], num_labels: int, n_rules: int):
@@ -242,11 +242,12 @@ def classify_with_rule(llm_model: str, rule: str, test_img: list[str], test_labe
         if i < len(predicted_labels) and predicted_labels[i] == test_labels[i]
     ) / len(test_labels)
 
-    return acc, predicted_labels
+    return acc, predicted_labels, response
 
 ### batch classify
 def batch_classify_with_rule(llm_model: str, rule: str, test_imgs: list[str], test_labels: list[int], batch_size: int = 10):
     all_predicted_labels = []
+    raw_batch_responses = []
     
     # Process test_imgs in chunks
     for i in range(0, len(test_imgs), batch_size):
@@ -255,6 +256,11 @@ def batch_classify_with_rule(llm_model: str, rule: str, test_imgs: list[str], te
         # Build prompt for just this chunk
         prompt = build_classification_prompt(rule, chunk_imgs)
         response = get_response(prompt, llm_model, reasoning_effort="low")
+        raw_batch_responses.append({
+            "batch_start": i,
+            "batch_size": len(chunk_imgs),
+            "response": response,
+        })
         
         # Parse predictions for this chunk
         pattern = r"Predicted class:\s+(\d+)"
@@ -274,7 +280,7 @@ def batch_classify_with_rule(llm_model: str, rule: str, test_imgs: list[str], te
     count = min(len(test_labels), len(all_predicted_labels))
     accuracy = sum(1 for i in range(count) if all_predicted_labels[i] == test_labels[i]) / len(test_labels)
     
-    return accuracy, all_predicted_labels
+    return accuracy, all_predicted_labels, raw_batch_responses
 
 ### rule swap
 
@@ -321,6 +327,7 @@ def argparser():
     parser.add_argument('--k', type=int, default=3, help="Number of total examples to use.")
     parser.add_argument('--rules', type=int, default=2, help="Number of LLM generated classification rules")
     parser.add_argument('--mode', type=str, default="rulebased", choices=["rulebased", "baseline", "noPrototype"], help="Mode of the experiment.")
+    parser.add_argument('--save_raw_outputs', action='store_true', help="Save raw model text outputs in separate txt files.")
     return parser.parse_args()
     
 if __name__ == '__main__':
@@ -334,6 +341,7 @@ if __name__ == '__main__':
     full_test_ts_norm = load_dataset(args.dataset, data_type="TEST_normalized")
 
     for n in range(10):
+        raw_outputs = None
         rand_ts_idx = np.random.randint(0, full_test_ts_norm.shape[0], size=(100))    # edit size=(n) to change how many to classify per run
         test_ts_norm = full_test_ts_norm[rand_ts_idx]
 
@@ -359,7 +367,11 @@ if __name__ == '__main__':
         #    raise ValueError(f"Unknown mode: {args.mode}")   
 
         if args.mode == "baseline":
-            accuracy, preds = prompt_baseline_model(args.llm, prot_img_simp, test_img_simp, test_ts_labels, len(set(prot_labels)))
+            accuracy, preds, baseline_response = prompt_baseline_model(args.llm, prot_img_simp, test_img_simp, test_ts_labels, len(set(prot_labels)))
+            if args.save_raw_outputs:
+                raw_outputs = {
+                    "baseline_response": baseline_response,
+                }
         
         elif args.mode in ["rulebased", "noPrototype"]:
             # generate one set of rules
@@ -390,13 +402,18 @@ if __name__ == '__main__':
 
             
             # batch classifier
-            accuracy, preds = batch_classify_with_rule(
+            accuracy, preds, raw_batch_responses = batch_classify_with_rule(
                 args.llm, 
                 rule, 
                 test_img_simp, 
                 test_ts_labels, 
                 batch_size=10  # adjust size per batch
             )
+            if args.save_raw_outputs:
+                raw_outputs = {
+                    "rule_generation_response": rule,
+                    "classification_batch_responses": raw_batch_responses,
+                }
         else:
             raise ValueError(f"Unknown mode: {args.mode}")    
 
@@ -413,4 +430,6 @@ if __name__ == '__main__':
         print(f"Final Accuracy: {accuracy * 100}%")
 
         # save results as json file in results as "llm_rules_results"
-        save_results(args, rule, accuracy, preds, test_ts_labels, rand_ts_idx)
+        save_results(args, rule, accuracy, preds, test_ts_labels, rand_ts_idx, repetition=n + 1)
+        if args.save_raw_outputs and raw_outputs is not None:
+            save_raw_outputs_txt(args, raw_outputs, repetition=n + 1)

@@ -136,14 +136,18 @@ Options:
 - `--mode` default is `rulebased`.
 - `--k` is the number of prototypes per class.
 - `--rules` is the maximum number of sub-rules per class requested from the LLM.
+- `--save_raw_outputs` stores the model's final text outputs in separate `.txt` files.
 
 Results are saved in:
 - `results/llm_results/<dataset>_<mode>_<k>_<rules>_llm_results.jsonl`
+- raw text outputs, when enabled, are saved in `results/llm_raw_outputs/<dataset>_<mode>_<k>_<rules>_run_<repetition>.txt`
 
 Notes on saved results:
 - the file is opened in append mode, so previous results are not deleted
 - each line in the `.jsonl` file represents one repetition of the experiment
 - with the current loop, one command execution appends `10` lines to the matching results file
+- if `--save_raw_outputs` is enabled, raw final text is written to separate `.txt` files instead of the JSONL
+- hidden reasoning traces are not exposed by this code path, so they cannot be saved
 
 Reading the results from the jsonl
 - each line represents one complete run over `100` sampled test instances
