@@ -27,6 +27,11 @@ def parse_args():
 def load_runs(dataset: str, mode: str, k: int, num_rules: int) -> list[dict]:
     path = f"results/llm_results/{dataset}_{mode}_{k}_{num_rules}_llm_results.jsonl"
     runs = []
+
+    if not os.path.exists(path):
+        print(f"Warning: No results found for {dataset} with mode {mode}, k={k}, num_rules={num_rules}")
+        return runs
+    
     with open(path, "r") as f:
         for line in f:
             row = json.loads(line)
