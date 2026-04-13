@@ -3,6 +3,10 @@ venv
 .venv
 llm_tests/*
 
+data
+
+models
+
 .idea
 __pycache__/*
 */__pycache__/*

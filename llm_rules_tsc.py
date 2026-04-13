@@ -28,12 +28,12 @@ client = OpenAI(api_key=api_key)
 
 DEBUG = False
 
-def get_response(prompt: list[dict], model:str):
+def get_response(prompt: list[dict], model:str, reasoning_effort: str = "low") -> str:
     response = client.chat.completions.create(
         model=model,
         messages=[{"role": "user", "content": prompt}], #type: ignore
-        temperature=0.0,
-        reasoning_effort="medium",
+        #temperature=0.0,
+        reasoning_effort=reasoning_effort,
     )
     return response.choices[0].message.content
 
@@ -60,21 +60,17 @@ def build_baseline_prompt(images: list[str], test_samples: list[str], num_labels
         remaining_images = remaining_images[num_images_per_label:]
         
         prompt.append({"type": "text", "text": f"Class {label} examples ({len(images_label)} time-series plots):"})
-        prompt.extend([
-            {"type": "image_url", "image_url": {"url": img}} for img in images_label
-        ])
+        prompt.extend([{"type": "image_url", "image_url": {"url": img}} for img in images_label]) #type: ignore
 
     prompt.append({"type": "text", "text": "New instances to classify (unlabeled):"})
-    prompt.extend([
-        {"type": "image_url", "image_url": {"url": ts}} for ts in test_samples
-    ])
+    prompt.extend([{"type": "image_url", "image_url": {"url": ts}} for ts in test_samples]) #type: ignore
     
     return prompt
 
 def prompt_baseline_model(llm_model: str, k_img: list[str], test_sample: list[str], test_labels: list[int], num_labels: int):
     # Build prompt
     prompt = build_baseline_prompt(k_img, test_sample, num_labels)
-    response = get_response(prompt, llm_model)
+    response = get_response(prompt, llm_model, reasoning_effort="low")
 
     # Regex parse
     pattern = r"Predicted class:\s+(\d+)"
@@ -127,10 +123,7 @@ def build_rule_prompt(images: list[str], num_labels: int, n_rules: int):
         images = images[num_images_per_label:]
 
         prompt.append({"type": "text", "text": f"Class {label} examples:"})
-        prompt.extend([
-            {"type": "image_url", "image_url": {"url": img}}
-            for img in images_label
-        ])
+        prompt.extend([{"type": "image_url", "image_url": {"url": img}} for img in images_label]) #type: ignore
 
     return prompt
 
@@ -154,10 +147,7 @@ def build_classification_prompt(rule: str, test_samples: list[str]):
         """}
         ]
 
-    prompt.extend([
-        {"type": "image_url", "image_url": {"url": img}}
-        for img in test_samples
-    ])
+    prompt.extend([{"type": "image_url", "image_url": {"url": img}} for img in test_samples])   #type: ignore
 
     return prompt
 
@@ -237,12 +227,12 @@ def select_random_timeseries(dataset_name: str, num_instances: int, data_type: s
 ### NEW FUNCTIONS FOR RULE EXTRACTION AND CLASSIFICATION WITH RULES
 def extract_rule(llm_model: str, k_img: list[str], labels: int, n_rules: int):
     prompt = build_rule_prompt(k_img, labels, n_rules)
-    rule = get_response(prompt, llm_model)
+    rule = get_response(prompt, llm_model, reasoning_effort="high")
     return rule
 
 def classify_with_rule(llm_model: str, rule: str, test_img: list[str], test_labels: list[int], labels: int):
     prompt = build_classification_prompt(rule, test_img)
-    response = get_response(prompt, llm_model)
+    response = get_response(prompt, llm_model, reasoning_effort="low")
 
     pattern = r"Predicted class:\s+(\d+)"
     predicted_labels = [int(x) for x in re.findall(pattern, response)]
@@ -264,7 +254,7 @@ def batch_classify_with_rule(llm_model: str, rule: str, test_imgs: list[str], te
         
         # Build prompt for just this chunk
         prompt = build_classification_prompt(rule, chunk_imgs)
-        response = get_response(prompt, llm_model)
+        response = get_response(prompt, llm_model, reasoning_effort="low")
         
         # Parse predictions for this chunk
         pattern = r"Predicted class:\s+(\d+)"
@@ -326,8 +316,8 @@ R3: In addition to the main low plateau, there is at least one extra sharp dip o
 def argparser():
     parser = argparse.ArgumentParser()
     parser.add_argument('--dataset', type=str, help="Dataset to feed samples from.")
-    parser.add_argument('--classifier', type=str, default="cnn", help="Classifier to compare with." )
-    parser.add_argument('--llm', type=str, default="google/gemma-3-27b-it:free",help="LLM within the OpenAI API. Models supported: gpt4o, o4-mini, gpt-4.1 and o3")
+    parser.add_argument('--classifier', type=str, default="miniRocket", help="Classifier to compare with." )
+    parser.add_argument('--llm', type=str, default="gpt-5.1",help="LLM within the OpenAI API. Models supported: gpt4o, o4-mini, gpt-4.1 and o3")
     parser.add_argument('--k', type=int, default=3, help="Number of total examples to use.")
     parser.add_argument('--rules', type=int, default=2, help="Number of LLM generated classification rules")
     parser.add_argument('--mode', type=str, default="rulebased", choices=["rulebased", "baseline", "noPrototype"], help="Mode of the experiment.")
@@ -340,85 +330,87 @@ if __name__ == '__main__':
 
     rule = "Baseline (No rules)"
         
-    train_ts_norm = load_dataset(args.dataset, data_type="TRAIN_normalized")
-    test_ts_norm = load_dataset(args.dataset, data_type="TEST_normalized")
-    rand_ts_idx = np.random.randint(0, test_ts_norm.shape[0], size=(100))    # edit size=(n) to change how many to classify per run
-    test_ts_norm = test_ts_norm[rand_ts_idx]
+    full_train_ts_norm = load_dataset(args.dataset, data_type="TRAIN_normalized")
+    full_test_ts_norm = load_dataset(args.dataset, data_type="TEST_normalized")
 
-    if args.mode in ["rulebased", "baseline"]:
-        prototipes_ts_norm = select_prototypes(args.dataset, num_instances=args.k, data_type="TRAIN_normalized") # change metric to preferred distance measure (dtw, euclidean, etc), metric="euclidean"
-    elif args.mode == "noPrototype":
-        prototipes_ts_norm = select_random_timeseries(args.dataset, num_instances=args.k, data_type="TRAIN_normalized")  
+    for n in range(10):
+        rand_ts_idx = np.random.randint(0, full_test_ts_norm.shape[0], size=(100))    # edit size=(n) to change how many to classify per run
+        test_ts_norm = full_test_ts_norm[rand_ts_idx]
 
-    prot_labels = np.array(load_dataset_labels(args.dataset, data_type='TEST_normalized'))
-    classifier_file = f"{args.classifier}_norm.pth" if args.classifier == "cnn" else f"{args.classifier}_norm.pkl"
-    dataset_ts_labels = model_batch_classify(f"./models/{args.dataset}/{classifier_file}", prototipes_ts_norm, len(set(prot_labels)))   #type: ignore
-    test_ts_labels = model_batch_classify(f"./models/{args.dataset}/{classifier_file}", test_ts_norm, len(set(prot_labels)))  #type: ignore
-    prot_img_simp, test_img_simp = simp_ts_to_img(prototipes_ts_norm, dataset_ts_labels, test_ts_norm)
+        if args.mode in ["rulebased", "baseline"]:
+            prototipes_ts_norm = select_prototypes(args.dataset, num_instances=args.k, data_type="TRAIN_normalized") # change metric to preferred distance measure (dtw, euclidean, etc), metric="euclidean"
+        elif args.mode == "noPrototype":
+            prototipes_ts_norm = select_random_timeseries(args.dataset, num_instances=args.k, data_type="TRAIN_normalized")  
 
-    ### old setup    
-    #if args.mode == "baseline":
-    #    accuracy, preds = prompt_baseline_model(args.llm, prot_img_simp, test_img_simp, test_ts_labels, len(set(prot_labels)))
-    #elif args.mode in ["rulebased", "noPrototype"]:
-    #    rule = extract_rule(args.llm, prot_img_simp, len(set(prot_labels)), args.rules)
-    #    print("Extracted Rule:\n", rule)
-    #    accuracy, preds = classify_with_rule(args.llm, rule, test_img_simp, test_ts_labels, len(set(prot_labels)))
-    #else:
-    #    raise ValueError(f"Unknown mode: {args.mode}")   
+        prot_labels = np.array(load_dataset_labels(args.dataset, data_type='TEST_normalized'))
+        classifier_file = f"{args.classifier}_norm.pth" if args.classifier == "cnn" else f"{args.classifier}_norm.pkl"
+        dataset_ts_labels = model_batch_classify(f"./models/{args.dataset}/{classifier_file}", prototipes_ts_norm, len(set(prot_labels)))   #type: ignore
+        test_ts_labels = model_batch_classify(f"./models/{args.dataset}/{classifier_file}", test_ts_norm, len(set(prot_labels)))  #type: ignore
+        prot_img_simp, test_img_simp = simp_ts_to_img(prototipes_ts_norm, dataset_ts_labels, test_ts_norm)
 
-    if args.mode == "baseline":
-        accuracy, preds = prompt_baseline_model(args.llm, prot_img_simp, test_img_simp, test_ts_labels, len(set(prot_labels)))
-    
-    elif args.mode in ["rulebased", "noPrototype"]:
-        # generate one set of rules
-        rule = extract_rule(args.llm, prot_img_simp, len(set(prot_labels)), args.rules)
-        print("Extracted Rule:\n", rule)
+        ### old setup    
+        #if args.mode == "baseline":
+        #    accuracy, preds = prompt_baseline_model(args.llm, prot_img_simp, test_img_simp, test_ts_labels, len(set(prot_labels)))
+        #elif args.mode in ["rulebased", "noPrototype"]:
+        #    rule = extract_rule(args.llm, prot_img_simp, len(set(prot_labels)), args.rules)
+        #    print("Extracted Rule:\n", rule)
+        #    accuracy, preds = classify_with_rule(args.llm, rule, test_img_simp, test_ts_labels, len(set(prot_labels)))
+        #else:
+        #    raise ValueError(f"Unknown mode: {args.mode}")   
 
-        # print("\n")
-
-        # # Before classify_with_rule...
-        # original_rule = rule
-        # rule = swap_rules_robust(rule)
-
-        # print('swapped rule:\n', rule)
-
-        # # Verify
-        # if original_rule == rule:
-        #     print("CRITICAL: The swap did not happen!")
-        # else:
-        #     print("SUCCESS: Rules have been swapped.")
-
-        ### UMD rule
-        # org_rule = rule
-        # rule = UMD_rule
-
-        # print("\n")
-
-        # print('UMD rule:\n', rule)
-
+        if args.mode == "baseline":
+            accuracy, preds = prompt_baseline_model(args.llm, prot_img_simp, test_img_simp, test_ts_labels, len(set(prot_labels)))
         
-        # batch classifier
-        accuracy, preds = batch_classify_with_rule(
-            args.llm, 
-            rule, 
-            test_img_simp, 
-            test_ts_labels, 
-            batch_size=10  # adjust size per batch
-        )
-    else:
-        raise ValueError(f"Unknown mode: {args.mode}")    
+        elif args.mode in ["rulebased", "noPrototype"]:
+            # generate one set of rules
+            rule = extract_rule(args.llm, prot_img_simp, len(set(prot_labels)), args.rules)
+            print("Extracted Rule:\n", rule)
 
-    print("\n")
-        
-    # table
-    print(f"{'Instance':<10} | {'True Label':<10} | {'Predicted':<10} | {'Status':<10} | {'TS Idx':<10}")
-    print("-" * 70)
-    for idx, (true_l, pred_l, ts_idx) in enumerate(zip(test_ts_labels, preds, rand_ts_idx)):
-        status = "MATCH" if true_l == pred_l else "MISMATCH"
-        print(f"{idx+1:<10} | {true_l:<10} | {pred_l:<10} | {status:<10} | {ts_idx:<10}")
-        
-    print("-" * 70)
-    print(f"Final Accuracy: {accuracy * 100}%")
+            # print("\n")
 
-    # save results as json file in results as "llm_rules_results"
-    save_results(args, rule, accuracy, preds, test_ts_labels, rand_ts_idx)
+            # # Before classify_with_rule...
+            # original_rule = rule
+            # rule = swap_rules_robust(rule)
+
+            # print('swapped rule:\n', rule)
+
+            # # Verify
+            # if original_rule == rule:
+            #     print("CRITICAL: The swap did not happen!")
+            # else:
+            #     print("SUCCESS: Rules have been swapped.")
+
+            ### UMD rule
+            # org_rule = rule
+            # rule = UMD_rule
+
+            # print("\n")
+
+            # print('UMD rule:\n', rule)
+
+            
+            # batch classifier
+            accuracy, preds = batch_classify_with_rule(
+                args.llm, 
+                rule, 
+                test_img_simp, 
+                test_ts_labels, 
+                batch_size=10  # adjust size per batch
+            )
+        else:
+            raise ValueError(f"Unknown mode: {args.mode}")    
+
+        print("\n")
+            
+        # table
+        print(f"{'Instance':<10} | {'True Label':<10} | {'Predicted':<10} | {'Status':<10} | {'TS Idx':<10}")
+        print("-" * 70)
+        for idx, (true_l, pred_l, ts_idx) in enumerate(zip(test_ts_labels, preds, rand_ts_idx)):
+            status = "MATCH" if true_l == pred_l else "MISMATCH"
+            print(f"{idx+1:<10} | {true_l:<10} | {pred_l:<10} | {status:<10} | {ts_idx:<10}")
+            
+        print("-" * 70)
+        print(f"Final Accuracy: {accuracy * 100}%")
+
+        # save results as json file in results as "llm_rules_results"
+        save_results(args, rule, accuracy, preds, test_ts_labels, rand_ts_idx)

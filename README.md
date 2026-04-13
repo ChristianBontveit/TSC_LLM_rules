@@ -109,28 +109,43 @@ Options:
 
 ## LLM Rules for TSC
 
-`llm_rules_tsc.py` prompts an LLM to create subrules for each class using prototype plots and asks an LLM to classify 10 random test samples using these rules.
+`llm_rules_tsc.py` prompts an LLM to create subrules for each class using prototype plots and evaluates them on sampled test instances.
 
 It expects an `.env` file in repo root with at least:
 - `API_KEY`
 
 Run:
 
-Variables which affect how many classifications, both found in main loop.
-- `rand_ts_idx = np.random.randint(0, test_ts_norm.shape[0], size=(100))    # edit size=(n) to change how many to classify per run` 
-- `batch_size=10  # adjust size per batch`
+Current behavior in the main loop:
+- the script runs `10` experiment repetitions
+- each repetition samples `100` test instances from the full normalized test set
+- in `rulebased` and `noPrototype` modes, a fresh rule set is generated on each repetition
+- classification is done in batches of `10` instances per LLM call
+
+Variables which affect the run size are in the main loop:
+- `for n in range(10)` controls how many repetitions are executed
+- `rand_ts_idx = np.random.randint(0, full_test_ts_norm.shape[0], size=(100))` controls how many test instances are classified per repetition
+- `batch_size=10` controls how many instances are sent in each classification prompt
 
 ```bash
 python llm_rules_tsc.py --dataset Chinatown --classifier miniRocket --llm gpt-5.1 --k 3 --rules 2
 ```
 
 Options:
-- `--mode` choose between gathering `baseline`, `rulebased` or `noPrototype` results.
-- `--mode` default mode is `rulebased`.
+- `--mode` chooses between `baseline`, `rulebased` and `noPrototype`.
+- `--mode` default is `rulebased`.
+- `--k` is the number of prototypes per class.
+- `--rules` is the maximum number of sub-rules per class requested from the LLM.
 
 Results are saved in:
-- `results\llm_results\dataset_mode_llm_results.jsonl` 
+- `results/llm_results/<dataset>_<mode>_<k>_<rules>_llm_results.jsonl`
+
+Notes on saved results:
+- the file is opened in append mode, so previous results are not deleted
+- each line in the `.jsonl` file represents one repetition of the experiment
+- with the current loop, one command execution appends `10` lines to the matching results file
+
 Reading the results from the jsonl
-- Each line represents a complete run of n = 10
+- each line represents one complete run over `100` sampled test instances
 - It is represented as such:
   - `{"dataset": "Chinatown", "mode": "rulebased", "classifier": "miniRocket", "llm": "gpt-5.1", "k": 3, "num_rules": 3, "accuracy": 0.6, "extracted_rules": {...}, "instance": [{"instance_id": 1, "ts_idx": 93, "true_label": 1, "predicted_label": 1, "status": "MATCH"}]}`
