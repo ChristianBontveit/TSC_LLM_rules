@@ -32,7 +32,8 @@ def get_response(prompt: list[dict], model:str):
     response = client.chat.completions.create(
         model=model,
         messages=[{"role": "user", "content": prompt}], #type: ignore
-        # extra_body={"reasoning": {"enabled": True}}
+        temperature=0.0,
+        reasoning_effort="medium",
     )
     return response.choices[0].message.content
 
