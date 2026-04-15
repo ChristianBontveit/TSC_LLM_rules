@@ -1,0 +1,111 @@
+dataset: ECG200
+mode: baseline
+classifier: miniRocket
+llm: gpt-5.1
+k: 3
+rules: 2
+repetition: 1
+
+=== Baseline Response ===
+The main visual difference I can infer between the two classes is in the second half of the series. Class 0 series typically show a clear upward trend after the mid-point (a “U-shape” with a sustained recovery and often a late peak), whereas class 1 series tend to flatten or drift slightly downward after the mid-point, sometimes with a short spike but without a sustained rise. Using this heuristic, and by visually comparing each test plot to the class-0 and class-1 prototypes, I assigned the following labels (note that working from plots alone makes these approximate):
+
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1

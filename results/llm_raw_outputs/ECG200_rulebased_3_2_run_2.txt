@@ -1,0 +1,138 @@
+dataset: ECG200
+mode: rulebased
+classifier: miniRocket
+llm: gpt-5.1
+k: 3
+rules: 2
+repetition: 2
+
+=== Rule Generation Response ===
+Class 0:
+R1: The series forms a U-shape (early high → minimum in the first third → recovery) and, after the recovery, the values stay roughly flat or drift slightly upward toward the end rather than clearly declining.
+R2: In the last quarter of the series there is a noticeable upward bump or spike, so that at least one of the final values is close to the highest value seen anywhere in the series.
+
+Class 1:
+R1: The series forms a U-shape (early high → minimum in the first third → recovery) but, after the recovery, the values gradually drift downward so that the last quarter is generally lower than the mid‑series plateau.
+R2: The strongest peak occurs near the beginning of the series (in the first half), and any peaks near the end are weaker than this early main peak.
+
+=== Classification Batch start=0 size=10 ===
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1
+
+=== Classification Batch start=10 size=10 ===
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+
+=== Classification Batch start=20 size=10 ===
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0
+
+=== Classification Batch start=30 size=10 ===
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0
+
+=== Classification Batch start=40 size=10 ===
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1
+
+=== Classification Batch start=50 size=10 ===
+
+1. Predicted class: 0  
+2. Predicted class: 1  
+3. Predicted class: 1  
+4. Predicted class: 0  
+5. Predicted class: 1  
+6. Predicted class: 1  
+7. Predicted class: 1  
+8. Predicted class: 1  
+9. Predicted class: 0  
+10. Predicted class: 1
+
+=== Classification Batch start=60 size=10 ===
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0
+
+=== Classification Batch start=70 size=10 ===
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0
+
+=== Classification Batch start=80 size=10 ===
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0
+
+=== Classification Batch start=90 size=10 ===
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1
+

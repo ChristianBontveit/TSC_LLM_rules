@@ -1,7 +1,7 @@
 import json
 import os
 
-def save_results(args, rule_txt, acc, preds, test_ts_labels, rand_ts_idx, repetition=None):
+def save_results(args, rule_txt, acc, preds, test_ts_labels, rand_ts_idx, repetition=None, support_examples=None):
     rules_dict = {}
     curr_cls = None
     lines = rule_txt.split("\n")
@@ -27,6 +27,9 @@ def save_results(args, rule_txt, acc, preds, test_ts_labels, rand_ts_idx, repeti
 
     if repetition is not None:
         run_data["repetition"] = repetition
+
+    if support_examples is not None:
+        run_data["support_examples"] = support_examples
 
     for idx, (true_l, pred_l, ts_idx) in enumerate(zip(test_ts_labels, preds, rand_ts_idx)):
         run_data["instance"].append({

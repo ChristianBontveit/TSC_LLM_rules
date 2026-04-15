@@ -1,0 +1,139 @@
+dataset: ECG200
+mode: noPrototype
+classifier: miniRocket
+llm: gpt-5.1
+k: 3
+rules: 3
+repetition: 2
+
+=== Rule Generation Response ===
+Class 0:
+R1: The series has a deep global minimum between 20% and 40% of its length (after the initial early peak).
+R2: After this minimum, the dominant post‑minimum peak is located in the last third of the series, or there is a second peak of similar height that occurs in the last third (i.e., a clear late hump or resurgence).
+R3: In the last third, the signal changes relatively smoothly, with only a few broad peaks and troughs and without rapid, high‑frequency up‑and‑down oscillations.
+
+Class 1:
+R1: The series has a deep global minimum between 20% and 40% of its length (after the initial early peak).
+R2: After this minimum, the dominant post‑minimum peak is located in the middle third of the series; all peaks in the last third are noticeably lower than this middle peak (no late hump of comparable height).
+R3: In the second half of the series, the signal exhibits several alternating local maxima and minima, giving a visibly wavier or more oscillatory plateau than in Class 0.
+
+=== Classification Batch start=0 size=10 ===
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1
+
+=== Classification Batch start=10 size=10 ===
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0
+
+=== Classification Batch start=20 size=10 ===
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0
+
+=== Classification Batch start=30 size=10 ===
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0
+
+=== Classification Batch start=40 size=10 ===
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0
+
+=== Classification Batch start=50 size=10 ===
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1
+
+=== Classification Batch start=60 size=10 ===
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0
+
+=== Classification Batch start=70 size=10 ===
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0
+
+=== Classification Batch start=80 size=10 ===
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0
+
+=== Classification Batch start=90 size=10 ===
+Time-series 1: Predicted class: 0  
+Time-series 2: Predicted class: 0  
+Time-series 3: Predicted class: 0  
+Time-series 4: Predicted class: 1  
+Time-series 5: Predicted class: 0  
+Time-series 6: Predicted class: 1  
+Time-series 7: Predicted class: 0  
+Time-series 8: Predicted class: 0  
+Time-series 9: Predicted class: 0  
+Time-series 10: Predicted class: 0
+

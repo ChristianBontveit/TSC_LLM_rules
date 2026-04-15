@@ -1,0 +1,116 @@
+dataset: SonyAIBORobotSurface1
+mode: baselineNoPrototype
+classifier: miniRocket
+llm: gpt-5.1
+k: 3
+rules: 2
+repetition: 3
+
+=== Baseline Response ===
+In the labeled data, both classes share an overall “high–low–rise–peak–drop–rise” structure, but there are consistent shape differences:
+
+- Class 0 series tend to be more irregular in the first third: after the initial peak they oscillate with secondary peaks and dips before settling, and their mid‑segment (t≈15–30) is usually higher (around 0.45–0.6) with more pronounced local variability.
+- Class 1 series typically show a very sharp early peak followed by a fairly monotonic drop into a broad low around t≈10–15, then a smoother gradual rise through the middle, a clear main peak around t≈40, a sharp drop near t≈50, and a smoother recovery towards 0.4–0.55 at the end.
+
+The new instances almost all display this class‑1 “signature”: a single strong early spike with a mostly monotonic fall to a sustained low, a smoother mid‑segment, a main peak around t≈40, a sharp fall near t≈50, and a moderate, smoother tail. They lack the more irregular, high‑variance early and mid‑segment oscillations that characterize class 0, so I assign them to class 1.
+
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1

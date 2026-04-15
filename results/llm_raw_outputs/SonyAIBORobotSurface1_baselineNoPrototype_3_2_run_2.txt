@@ -1,0 +1,144 @@
+dataset: SonyAIBORobotSurface1
+mode: baselineNoPrototype
+classifier: miniRocket
+llm: gpt-5.1
+k: 3
+rules: 2
+repetition: 2
+
+=== Baseline Response ===
+From the labeled examples, both classes share a strong initial peak, a mid‑series peak, and a deep trough around the middle/end. The clearest distinguishing feature is the behavior right after the first peak:
+
+- Class 0: more oscillatory early segment, with a second noticeable peak (or rebound) before dropping to its first deep trough.
+- Class 1: after the first peak, the signal tends to fall more monotonically into a relatively long low region before rising again.
+
+All 100 unlabeled instances visually follow the class‑1 pattern: a sharp first peak followed by a largely monotonic decline into a low plateau before the mid‑series rise, with no pronounced early rebound peak comparable to class‑0 examples. Therefore, I assign them all to class 1.
+
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1

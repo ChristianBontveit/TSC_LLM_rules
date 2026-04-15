@@ -10,7 +10,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
-from Utils.load_data import load_dataset_labels
+from Utils.load_data import load_dataset, load_dataset_labels
 from Utils.selectPrototypes import select_prototypes
 
 
@@ -72,6 +72,35 @@ def add_prototypes_page(pdf: PdfPages, dataset: str, k: int):
     plt.close(fig)
 
 
+def add_support_examples_page(pdf: PdfPages, dataset: str, support_examples: list[dict], title: str, data_type: str="TRAIN_normalized"):
+    if not support_examples:
+        return
+
+    support_examples = sorted(support_examples, key=lambda x: x["class_label"])
+    dataset_ts = load_dataset(dataset, data_type=data_type)
+    k = max(len(item["indices"]) for item in support_examples)
+
+    fig, axes = plt.subplots(len(support_examples), k, figsize=(4 * k, 2.6 * len(support_examples)), squeeze=False)
+    for row_idx, item in enumerate(support_examples):
+        label = item["class_label"]
+        indices = item["indices"]
+        for col_idx in range(k):
+            ax = axes[row_idx][col_idx]
+            if col_idx < len(indices):
+                ts_idx = indices[col_idx]
+                ax.plot(dataset_ts[ts_idx])
+                ax.set_title(f"Class {label} - idx {ts_idx}")
+            else:
+                ax.axis("off")
+            ax.set_xticks([])
+            ax.set_yticks([])
+
+    fig.suptitle(title)
+    fig.tight_layout()
+    pdf.savefig(fig)
+    plt.close(fig)
+
+
 def add_rules_page(pdf: PdfPages, title: str, rules_text: str):
     height = max(3.0, 1.2 + 0.32 * len((title + "\n" + rules_text).splitlines()))
     fig = plt.figure(figsize=(8.27, height))
@@ -88,13 +117,30 @@ def main():
 
     rulebased_runs = load_runs(args.dataset, "rulebased", args.k, args.num_rules)
     no_prototype_runs = load_runs(args.dataset, "noPrototype", args.k, args.num_rules)
+    baseline_no_prototype_runs = load_runs(args.dataset, "baselineNoPrototype", args.k, args.num_rules)
 
     if not args.all_rules:
         rulebased_runs = [rulebased_runs[-1]]
         no_prototype_runs = [no_prototype_runs[-1]]
+        if baseline_no_prototype_runs:
+            baseline_no_prototype_runs = [baseline_no_prototype_runs[-1]]
 
     with PdfPages(output) as pdf:
+        for idx, run in enumerate(baseline_no_prototype_runs, start=1):
+            add_support_examples_page(
+                pdf,
+                args.dataset,
+                run.get("support_examples", []),
+                f"{args.dataset} - baselineNoPrototype support examples #{idx} (k={args.k}, acc={run['accuracy']:.2f})",
+            )
+
         for idx, run in enumerate(no_prototype_runs, start=1):
+            add_support_examples_page(
+                pdf,
+                args.dataset,
+                run.get("support_examples", []),
+                f"{args.dataset} - noPrototype support examples #{idx} (k={args.k}, num_rules={args.num_rules}, acc={run['accuracy']:.2f})",
+            )
             add_rules_page(
                 pdf,
                 f"{args.dataset} - noPrototype rules #{idx} (k={args.k}, num_rules={args.num_rules}, acc={run['accuracy']:.2f})",
@@ -104,6 +150,12 @@ def main():
         add_prototypes_page(pdf, args.dataset, args.k)
 
         for idx, run in enumerate(rulebased_runs, start=1):
+            add_support_examples_page(
+                pdf,
+                args.dataset,
+                run.get("support_examples", []),
+                f"{args.dataset} - rulebased support examples #{idx} (k={args.k}, num_rules={args.num_rules}, acc={run['accuracy']:.2f})",
+            )
             add_rules_page(
                 pdf,
                 f"{args.dataset} - rulebased rules #{idx} (k={args.k}, num_rules={args.num_rules}, acc={run['accuracy']:.2f})",

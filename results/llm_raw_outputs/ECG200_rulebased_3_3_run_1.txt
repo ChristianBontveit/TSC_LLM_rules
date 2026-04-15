@@ -1,0 +1,139 @@
+dataset: ECG200
+mode: rulebased
+classifier: miniRocket
+llm: gpt-5.1
+k: 3
+rules: 3
+repetition: 1
+
+=== Rule Generation Response ===
+Class 0:
+R1: The global minimum occurs in the first third of the series and is distinctly low (around 0.1–0.2).  
+R2: The middle third of the series shows a clear recovery from this minimum, with values rising into a mid-to-high band (roughly 0.4–0.6).  
+R3: The final third does not decline after this recovery; its average level is at least as high as the middle third and may include a noticeable late spike.
+
+Class 1:
+R1: The global maximum typically appears very early, within about the first 10–15% of the series.  
+R2: A clear minimum (around 0.1–0.2) occurs near the end of the first third of the series.  
+R3: After recovering to a mid-level plateau (around 0.4–0.5), the final third is flat or slightly decreasing, without a sustained upward trend.
+
+=== Classification Batch start=0 size=10 ===
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1
+
+=== Classification Batch start=10 size=10 ===
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0
+
+=== Classification Batch start=20 size=10 ===
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0
+
+=== Classification Batch start=30 size=10 ===
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0
+
+=== Classification Batch start=40 size=10 ===
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0
+
+=== Classification Batch start=50 size=10 ===
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1
+
+=== Classification Batch start=60 size=10 ===
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0
+
+=== Classification Batch start=70 size=10 ===
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1
+
+=== Classification Batch start=80 size=10 ===
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0
+
+=== Classification Batch start=90 size=10 ===
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1
+

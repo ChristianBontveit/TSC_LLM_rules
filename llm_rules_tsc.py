@@ -12,6 +12,14 @@ from Utils.save_llm_results import save_raw_outputs_txt, save_results
 import openai
 from openai import OpenAI
 import matplotlib
+from tenacity import (
+    before_sleep_log,
+    retry,
+    retry_if_exception,
+    stop_after_attempt,
+    wait_exponential,
+)
+import logging
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt 
 import warnings
@@ -27,8 +35,37 @@ if api_key is None:
 client = OpenAI(api_key=api_key)
 
 DEBUG = False
+logger = logging.getLogger(__name__)
 
-def get_response(prompt: list[dict], model:str, reasoning_effort: str = "low") -> str:
+
+def should_retry_openai_error(exc: Exception) -> bool:
+    if isinstance(
+        exc,
+        (
+            openai.APIConnectionError,
+            openai.APITimeoutError,
+            openai.RateLimitError,
+            openai.InternalServerError,
+        ),
+    ):
+        return True
+
+    if isinstance(exc, openai.BadRequestError):
+        error_message = str(exc).lower()
+        if "could not parse the json body of your request" in error_message:
+            return True
+
+    return False
+
+
+@retry(
+    retry=retry_if_exception(should_retry_openai_error),
+    wait=wait_exponential(multiplier=1, min=1, max=20),
+    stop=stop_after_attempt(5),
+    before_sleep=before_sleep_log(logger, logging.WARNING),
+    reraise=True,
+)
+def get_response(prompt: list[dict], model:str, reasoning_effort: str = "high") -> str:
     response = client.chat.completions.create(
         model=model,
         messages=[{"role": "user", "content": prompt}], #type: ignore
@@ -70,7 +107,7 @@ def build_baseline_prompt(images: list[str], test_samples: list[str], num_labels
 def prompt_baseline_model(llm_model: str, k_img: list[str], test_sample: list[str], test_labels: list[int], num_labels: int):
     # Build prompt
     prompt = build_baseline_prompt(k_img, test_sample, num_labels)
-    response = get_response(prompt, llm_model, reasoning_effort="low")
+    response = get_response(prompt, llm_model, reasoning_effort="high")
 
     # Regex parse
     pattern = r"Predicted class:\s+(\d+)"
@@ -197,17 +234,19 @@ def simp_ts_to_img(dataset_ts: np.ndarray, dataset_ts_labels: list[int], test_ts
     return k_img, test_sample
 
 ### selecy random timeseries for no prototype run
-def select_random_timeseries(dataset_name: str, num_instances: int, data_type: str="TEST_normalized") -> np.ndarray:
+def select_random_timeseries(dataset_name: str, num_instances: int, data_type: str="TEST_normalized", return_metadata: bool=False):
     # Load dataset and labels
     X_data = load_dataset(dataset_name=dataset_name, data_type=data_type)
     labels = np.array(load_dataset_labels(dataset_name=dataset_name, data_type=data_type))
     
     unique_labels = np.unique(labels)
     prototypes_list = []
+    support_examples = []
 
     # For each label, pick random samples
     for label in unique_labels:
         mask = labels == label
+        dataset_indices = np.where(mask)[0]
         X_label = X_data[mask]
         
         if len(X_label) < num_instances:
@@ -217,12 +256,22 @@ def select_random_timeseries(dataset_name: str, num_instances: int, data_type: s
         rand_indices = np.random.choice(X_label.shape[0], num_instances, replace=False)
         prototypes = X_label[rand_indices]
         prototypes_list.append(prototypes)
+        support_examples.append({
+            "class_label": int(label),
+            "selection_type": "random",
+            "indices": dataset_indices[rand_indices].astype(int).tolist(),
+        })
 
     # Return
     if prototypes_list:
-        return np.concatenate(prototypes_list)
+        prototypes = np.concatenate(prototypes_list)
     else:
-        return np.array([])
+        prototypes = np.array([])
+
+    if return_metadata:
+        return prototypes, support_examples
+
+    return prototypes
 
 ### NEW FUNCTIONS FOR RULE EXTRACTION AND CLASSIFICATION WITH RULES
 def extract_rule(llm_model: str, k_img: list[str], labels: int, n_rules: int):
@@ -230,6 +279,7 @@ def extract_rule(llm_model: str, k_img: list[str], labels: int, n_rules: int):
     rule = get_response(prompt, llm_model, reasoning_effort="high")
     return rule
 
+"""
 def classify_with_rule(llm_model: str, rule: str, test_img: list[str], test_labels: list[int], labels: int):
     prompt = build_classification_prompt(rule, test_img)
     response = get_response(prompt, llm_model, reasoning_effort="low")
@@ -243,6 +293,7 @@ def classify_with_rule(llm_model: str, rule: str, test_img: list[str], test_labe
     ) / len(test_labels)
 
     return acc, predicted_labels, response
+"""
 
 ### batch classify
 def batch_classify_with_rule(llm_model: str, rule: str, test_imgs: list[str], test_labels: list[int], batch_size: int = 10):
@@ -255,7 +306,7 @@ def batch_classify_with_rule(llm_model: str, rule: str, test_imgs: list[str], te
         
         # Build prompt for just this chunk
         prompt = build_classification_prompt(rule, chunk_imgs)
-        response = get_response(prompt, llm_model, reasoning_effort="low")
+        response = get_response(prompt, llm_model, reasoning_effort="high")
         raw_batch_responses.append({
             "batch_start": i,
             "batch_size": len(chunk_imgs),
@@ -326,7 +377,7 @@ def argparser():
     parser.add_argument('--llm', type=str, default="gpt-5.1",help="LLM within the OpenAI API. Models supported: gpt4o, o4-mini, gpt-4.1 and o3")
     parser.add_argument('--k', type=int, default=3, help="Number of total examples to use.")
     parser.add_argument('--rules', type=int, default=2, help="Number of LLM generated classification rules")
-    parser.add_argument('--mode', type=str, default="rulebased", choices=["rulebased", "baseline", "noPrototype"], help="Mode of the experiment.")
+    parser.add_argument('--mode', type=str, default="rulebased", choices=["rulebased", "baseline", "noPrototype", "baselineNoPrototype"], help="Mode of the experiment.")
     parser.add_argument('--save_raw_outputs', action='store_true', help="Save raw model text outputs in separate txt files.")
     return parser.parse_args()
     
@@ -340,15 +391,15 @@ if __name__ == '__main__':
     full_train_ts_norm = load_dataset(args.dataset, data_type="TRAIN_normalized")
     full_test_ts_norm = load_dataset(args.dataset, data_type="TEST_normalized")
 
-    for n in range(10):
+    for n in range(3):
         raw_outputs = None
         rand_ts_idx = np.random.randint(0, full_test_ts_norm.shape[0], size=(100))    # edit size=(n) to change how many to classify per run
         test_ts_norm = full_test_ts_norm[rand_ts_idx]
 
         if args.mode in ["rulebased", "baseline"]:
-            prototipes_ts_norm = select_prototypes(args.dataset, num_instances=args.k, data_type="TRAIN_normalized") # change metric to preferred distance measure (dtw, euclidean, etc), metric="euclidean"
-        elif args.mode == "noPrototype":
-            prototipes_ts_norm = select_random_timeseries(args.dataset, num_instances=args.k, data_type="TRAIN_normalized")  
+            prototipes_ts_norm, support_examples = select_prototypes(args.dataset, num_instances=args.k, data_type="TRAIN_normalized", return_metadata=True) # change metric to preferred distance measure (dtw, euclidean, etc), metric="euclidean"
+        elif args.mode in ["noPrototype", "baselineNoPrototype"]:
+            prototipes_ts_norm, support_examples = select_random_timeseries(args.dataset, num_instances=args.k, data_type="TRAIN_normalized", return_metadata=True)  
 
         prot_labels = np.array(load_dataset_labels(args.dataset, data_type='TEST_normalized'))
         classifier_file = f"{args.classifier}_norm.pth" if args.classifier == "cnn" else f"{args.classifier}_norm.pkl"
@@ -366,7 +417,7 @@ if __name__ == '__main__':
         #else:
         #    raise ValueError(f"Unknown mode: {args.mode}")   
 
-        if args.mode == "baseline":
+        if args.mode in ["baseline", "baselineNoPrototype"]:
             accuracy, preds, baseline_response = prompt_baseline_model(args.llm, prot_img_simp, test_img_simp, test_ts_labels, len(set(prot_labels)))
             if args.save_raw_outputs:
                 raw_outputs = {
@@ -430,6 +481,6 @@ if __name__ == '__main__':
         print(f"Final Accuracy: {accuracy * 100}%")
 
         # save results as json file in results as "llm_rules_results"
-        save_results(args, rule, accuracy, preds, test_ts_labels, rand_ts_idx, repetition=n + 1)
+        save_results(args, rule, accuracy, preds, test_ts_labels, rand_ts_idx, repetition=n + 1, support_examples=support_examples)
         if args.save_raw_outputs and raw_outputs is not None:
             save_raw_outputs_txt(args, raw_outputs, repetition=n + 1)

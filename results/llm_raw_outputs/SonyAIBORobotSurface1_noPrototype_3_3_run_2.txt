@@ -1,0 +1,139 @@
+dataset: SonyAIBORobotSurface1
+mode: noPrototype
+classifier: miniRocket
+llm: gpt-5.1
+k: 3
+rules: 3
+repetition: 2
+
+=== Rule Generation Response ===
+Class 0:
+R1: The global minimum of the series occurs early, within the first 25% of the time axis (around indices 0–15 for length ≈70).
+R2: Before this early minimum, the series shows at least one clear peak above about 0.6, i.e., it first rises and then falls sharply into the early low.
+R3: In the second half of the series, there are two major peaks of comparable height (both roughly 0.6–0.8) separated by a pronounced valley (value clearly lower than 0.3).
+
+Class 1:
+R1: The global minimum of the series occurs late, between about 60% and 80% of the time axis (around indices 45–55 for length ≈70).
+R2: In the first 20% of the series there is a single prominent peak above about 0.7, and after that peak the signal decreases toward the middle with no second major early peak.
+R3: In the second half of the series there is one very tall peak (about 0.7–0.8) followed by a noticeably smaller final hump (about 0.5–0.6); the last hump is clearly lower than the tall mid‑late peak.
+
+=== Classification Batch start=0 size=10 ===
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0
+
+=== Classification Batch start=10 size=10 ===
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0
+
+=== Classification Batch start=20 size=10 ===
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1
+
+=== Classification Batch start=30 size=10 ===
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1
+
+=== Classification Batch start=40 size=10 ===
+1) Predicted class: 1  
+2) Predicted class: 0  
+3) Predicted class: 1  
+4) Predicted class: 1  
+5) Predicted class: 1  
+6) Predicted class: 1  
+7) Predicted class: 0  
+8) Predicted class: 1  
+9) Predicted class: 0  
+10) Predicted class: 0
+
+=== Classification Batch start=50 size=10 ===
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1
+
+=== Classification Batch start=60 size=10 ===
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0
+
+=== Classification Batch start=70 size=10 ===
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1
+
+=== Classification Batch start=80 size=10 ===
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1
+
+=== Classification Batch start=90 size=10 ===
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0
+

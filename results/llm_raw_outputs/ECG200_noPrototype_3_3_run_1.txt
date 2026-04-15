@@ -1,0 +1,139 @@
+dataset: ECG200
+mode: noPrototype
+classifier: miniRocket
+llm: gpt-5.1
+k: 3
+rules: 3
+repetition: 1
+
+=== Rule Generation Response ===
+Class 0:
+R1: The lowest point of the series occurs roughly in the first third of the time axis.  
+R2: From that low point up to about two‑thirds of the series, the overall trend is steadily upward, reaching mid to high values (around 0.4–0.5).  
+R3: In the last third, values remain relatively high (around or above 0.4) and often include a late peak that is comparable to or higher than any earlier peak.
+
+Class 1:
+R1: The global maximum is an isolated spike located very early, within roughly the first 10–15% of the time axis.  
+R2: After this early spike, the series drops sharply down to a low valley (around 0.1–0.2) by about one third of its length.  
+R3: In the last third, the series stays flat or gently decreases at moderate levels (around 0.3–0.5) and does not produce any peak higher than the early spike.
+
+=== Classification Batch start=0 size=10 ===
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1
+
+=== Classification Batch start=10 size=10 ===
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1
+
+=== Classification Batch start=20 size=10 ===
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1
+
+=== Classification Batch start=30 size=10 ===
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1
+
+=== Classification Batch start=40 size=10 ===
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1
+
+=== Classification Batch start=50 size=10 ===
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1
+
+=== Classification Batch start=60 size=10 ===
+1. Predicted class: 1  
+2. Predicted class: 1  
+3. Predicted class: 1  
+4. Predicted class: 1  
+5. Predicted class: 1  
+6. Predicted class: 1  
+7. Predicted class: 1  
+8. Predicted class: 1  
+9. Predicted class: 1  
+10. Predicted class: 0
+
+=== Classification Batch start=70 size=10 ===
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1
+
+=== Classification Batch start=80 size=10 ===
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1
+
+=== Classification Batch start=90 size=10 ===
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1
+

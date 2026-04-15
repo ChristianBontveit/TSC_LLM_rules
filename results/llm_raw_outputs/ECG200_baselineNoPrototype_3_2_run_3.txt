@@ -1,0 +1,111 @@
+dataset: ECG200
+mode: baselineNoPrototype
+classifier: miniRocket
+llm: gpt-5.1
+k: 3
+rules: 2
+repetition: 3
+
+=== Baseline Response ===
+Class 0 series show a relatively smooth initial drop from the first peak into the valley and then a fairly stable, mid‑high plateau, whereas class 1 series tend to have a sharper initial spike, more pronounced early oscillations, and greater variability or secondary peaks later in the series. For each unlabeled instance, I visually compared its overall shape—especially the early drop and the noisiness/secondary peaks on the plateau—to the given prototypes and chose the closer class. Based on that comparison, the predicted labels are:
+
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0

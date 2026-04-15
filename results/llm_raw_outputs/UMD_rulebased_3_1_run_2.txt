@@ -1,0 +1,138 @@
+dataset: UMD
+mode: rulebased
+classifier: miniRocket
+llm: gpt-5.1
+k: 3
+rules: 1
+repetition: 2
+
+=== Rule Generation Response ===
+Class 0:  
+R1: The series contains at least one short, sharp upward peak that rises clearly above the surrounding baseline/plateau levels.
+
+Class 1:  
+R1: The series shows a single broad plateau in the middle (higher than the tails) with no additional sharp peaks or dips elsewhere.
+
+Class 2:  
+R1: The series contains at least one short, sharp downward trough that falls clearly below the surrounding baseline/plateau levels.
+
+=== Classification Batch start=0 size=10 ===
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 2  
+Predicted class: 2  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1
+
+=== Classification Batch start=10 size=10 ===
+Predicted class: 1  
+Predicted class: 2  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 2  
+Predicted class: 2  
+Predicted class: 2
+
+=== Classification Batch start=20 size=10 ===
+Predicted class: 2  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 2  
+Predicted class: 2  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 2  
+Predicted class: 2
+
+=== Classification Batch start=30 size=10 ===
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 2  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 2  
+Predicted class: 2
+
+=== Classification Batch start=40 size=10 ===
+Image 1: Predicted class: 0  
+Image 2: Predicted class: 0  
+Image 3: Predicted class: 2  
+Image 4: Predicted class: 0  
+Image 5: Predicted class: 1  
+Image 6: Predicted class: 2  
+Image 7: Predicted class: 0  
+Image 8: Predicted class: 2  
+Image 9: Predicted class: 1  
+Image 10: Predicted class: 1
+
+=== Classification Batch start=50 size=10 ===
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 2  
+Predicted class: 2  
+Predicted class: 1
+
+=== Classification Batch start=60 size=10 ===
+Predicted class: 2  
+Predicted class: 0  
+Predicted class: 2  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 2  
+Predicted class: 2  
+Predicted class: 1  
+Predicted class: 1
+
+=== Classification Batch start=70 size=10 ===
+Predicted class: 2  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 2  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1
+
+=== Classification Batch start=80 size=10 ===
+Predicted class: 2  
+Predicted class: 2  
+Predicted class: 1  
+Predicted class: 2  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 2  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0
+
+=== Classification Batch start=90 size=10 ===
+Predicted class: 1  
+Predicted class: 2  
+Predicted class: 1  
+Predicted class: 2  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 2  
+Predicted class: 0
+

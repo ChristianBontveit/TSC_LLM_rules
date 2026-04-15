@@ -1,0 +1,120 @@
+dataset: UMD
+mode: baseline
+classifier: miniRocket
+llm: gpt-5.1
+k: 3
+rules: 2
+repetition: 2
+
+=== Baseline Response ===
+From the labeled examples:
+
+- Class 0: baseline around 0.5 with a long low plateau (voltage sag) and/or a long high plateau, sometimes accompanied by brief *upward* spikes. No sharp deep downward spikes.
+- Class 1: a single, clean high plateau in the middle of the series (around indices 50–100), with baseline-like behavior before and after and no extra spikes/dips.
+- Class 2: series that, in addition to a plateau (high or low), contain at least one sharp, narrow *downward* spike well below the baseline (often near the beginning or end), or multiple sag-like segments.
+
+For each new instance, I matched its overall shape to these patterns:
+- Any sharp narrow downward spike below the baseline → class 2.
+- Otherwise, presence of low plateau and/or upward spike(s) → class 0.
+- Otherwise, a single clean high plateau → class 1.
+
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 1
+Predicted class: 0
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 1
+Predicted class: 0
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 1
+Predicted class: 0
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 1
+Predicted class: 0
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 1
+Predicted class: 0
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 1
+Predicted class: 0
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 1
+Predicted class: 0
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 1
+Predicted class: 0
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 1
+Predicted class: 0
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 1
+Predicted class: 0

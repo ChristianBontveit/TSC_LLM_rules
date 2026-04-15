@@ -1,0 +1,144 @@
+dataset: UMD
+mode: noPrototype
+classifier: miniRocket
+llm: gpt-5.1
+k: 3
+rules: 3
+repetition: 2
+
+=== Rule Generation Response ===
+Class 0:
+R1: The series starts and ends at roughly the same medium, flat baseline level.  
+R2: In the middle of the series, there is one long plateau whose level is clearly different from the baseline (either much lower or much higher).  
+R3: In the last third of the series, the most prominent extra feature is a sharp, narrow upward spike that rises clearly above both the baseline and the central plateau.
+
+Class 1:
+R1: The series has a flat baseline of similar level at the beginning and at the end.  
+R2: In the middle third, there is a single broad, rectangular bump where the values stay consistently higher than the baseline.  
+R3: Outside this broad central bump, there are no pronounced narrow spikes or dips; the signal remains close to the baseline.
+
+Class 2:
+R1: The series has a flat baseline of similar level at the beginning and at the end.  
+R2: Between these baseline parts, there is a long central valley where the values drop far below the baseline and stay low for a sustained period.  
+R3: In at least one of the baseline regions (before or after the central valley), there is an additional short, sharp downward dip that falls clearly below the surrounding baseline.
+
+=== Classification Batch start=0 size=10 ===
+Predicted class: 0  
+Predicted class: none (no rule match)  
+Predicted class: 0  
+Predicted class: 2  
+Predicted class: none (no rule match)  
+Predicted class: none (no rule match)  
+Predicted class: 1  
+Predicted class: none (no rule match)  
+Predicted class: 1  
+Predicted class: none (no rule match)
+
+=== Classification Batch start=10 size=10 ===
+Predicted class: 2  
+Predicted class: none  
+Predicted class: 2  
+Predicted class: 2  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: none
+
+=== Classification Batch start=20 size=10 ===
+Predicted class: None  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: None  
+Predicted class: None  
+Predicted class: None  
+Predicted class: 1  
+Predicted class: None  
+Predicted class: 1
+
+=== Classification Batch start=30 size=10 ===
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 2  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0
+
+=== Classification Batch start=40 size=10 ===
+Plot 1: Predicted class: N/A  
+Plot 2: Predicted class: 1  
+Plot 3: Predicted class: 1  
+Plot 4: Predicted class: N/A  
+Plot 5: Predicted class: 1  
+Plot 6: Predicted class: 1  
+Plot 7: Predicted class: 1  
+Plot 8: Predicted class: 1  
+Plot 9: Predicted class: 0  
+Plot 10: Predicted class: 0
+
+=== Classification Batch start=50 size=10 ===
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 2  
+Predicted class: 2  
+Predicted class: 2  
+Predicted class: 1
+
+=== Classification Batch start=60 size=10 ===
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 2  
+Predicted class: 2  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1
+
+=== Classification Batch start=70 size=10 ===
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 2  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 2  
+Predicted class: 1  
+Predicted class: 1
+
+=== Classification Batch start=80 size=10 ===
+1. Predicted class: None  
+2. Predicted class: 2  
+3. Predicted class: None  
+4. Predicted class: 1  
+5. Predicted class: 2  
+6. Predicted class: None  
+7. Predicted class: 1  
+8. Predicted class: 2  
+9. Predicted class: None  
+10. Predicted class: 1
+
+=== Classification Batch start=90 size=10 ===
+Predicted class: none  
+Predicted class: 2  
+Predicted class: 1  
+Predicted class: none  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 2  
+Predicted class: 1
+

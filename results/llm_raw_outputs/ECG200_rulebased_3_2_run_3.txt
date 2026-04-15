@@ -1,0 +1,137 @@
+dataset: ECG200
+mode: rulebased
+classifier: miniRocket
+llm: gpt-5.1
+k: 3
+rules: 2
+repetition: 3
+
+=== Rule Generation Response ===
+Class 0:
+R1: The series starts at a mid/high value (around 0.4–0.7) and, within roughly the first third of its length, smoothly falls into a single clear trough whose minimum is shallow to moderate (typically around 0.1–0.2).
+R2: After this early trough, the series climbs back and spends the rest of the time mostly in a mid-range band (about 0.35–0.55), with small oscillations and often a visible recovery or bump in the last third.
+
+Class 1:
+R1: The series starts at a mid/high value and, in the first third, drops more steeply into a pronounced trough whose minimum is relatively deep (at least as low as in Class 0 and sometimes approaching zero, well below about 0.15).
+R2: After this deeper trough, the series rises to a mid-range level (around 0.4–0.5) and then remains fairly stable or gently declining over the remainder, usually without maintaining a long segment clearly above about 0.55.
+
+=== Classification Batch start=0 size=10 ===
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0
+
+=== Classification Batch start=10 size=10 ===
+1. Predicted class: 0  
+2. Predicted class: 1  
+3. Predicted class: 0  
+4. Predicted class: 1  
+5. Predicted class: 1  
+6. Predicted class: 1  
+7. Predicted class: 1  
+8. Predicted class: 1  
+9. Predicted class: 0  
+10. Predicted class: 1
+
+=== Classification Batch start=20 size=10 ===
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1
+
+=== Classification Batch start=30 size=10 ===
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0
+
+=== Classification Batch start=40 size=10 ===
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0
+
+=== Classification Batch start=50 size=10 ===
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0
+
+=== Classification Batch start=60 size=10 ===
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1
+
+=== Classification Batch start=70 size=10 ===
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0
+
+=== Classification Batch start=80 size=10 ===
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0
+
+=== Classification Batch start=90 size=10 ===
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1
+

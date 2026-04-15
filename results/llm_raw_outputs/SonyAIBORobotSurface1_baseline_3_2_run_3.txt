@@ -1,0 +1,116 @@
+dataset: SonyAIBORobotSurface1
+mode: baseline
+classifier: miniRocket
+llm: gpt-5.1
+k: 3
+rules: 2
+repetition: 3
+
+=== Baseline Response ===
+Across the labeled examples, the main discriminating pattern is the **location of the deepest trough (global minimum)** and the surrounding shape:
+
+- **Class 0**: deepest minimum occurs **early** (around indices 10–20). After that the series stays in a mid-range band (≈0.3–0.6) with no later drop that goes lower than the early trough. These series also tend to have sharper early spikes.
+- **Class 1**: the series has a moderate early dip, but the **lowest point appears later**, clustered around indices **45–55**, with a distinctive sharp drop from a mid-level plateau (~0.45–0.55) to near-zero and then recovery.
+
+Inspecting each test time series, all of them exhibit the class‑1 signature: a relatively smooth mid section with a plateau around 0.45–0.55 from roughly indices 20–40, followed by a **sharp, deepest drop around index ~50** and then recovery. None of the test instances has a global minimum clearly located only in the early segment the way class‑0 examples do. Therefore, I assign **class 1** to all 100 test instances.
+
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1

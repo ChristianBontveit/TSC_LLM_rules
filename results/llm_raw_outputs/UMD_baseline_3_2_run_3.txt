@@ -1,0 +1,120 @@
+dataset: UMD
+mode: baseline
+classifier: miniRocket
+llm: gpt-5.1
+k: 3
+rules: 2
+repetition: 3
+
+=== Baseline Response ===
+From the labeled examples:
+
+- Class 1 shows a single clean “top‑hat” plateau in the middle of the series (signal rises once, stays high, then falls back), with no extra sharp spikes or dips.
+- Class 0 shows a main plateau (high or low) plus at least one additional narrow *upward* spike that rises clearly above its neighboring levels.
+- Class 2 shows a main plateau plus at least one additional narrow *downward* dip that falls clearly below its neighboring levels.
+
+For each new instance, I compared its shape to these templates:  
+- If it had just one plateau and no extra spikes/dips, I assigned class 1.  
+- If it had extra narrow peaks above the surrounding levels, I assigned class 0.  
+- If it had extra narrow troughs/dips below the surrounding levels, I assigned class 2.
+
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0

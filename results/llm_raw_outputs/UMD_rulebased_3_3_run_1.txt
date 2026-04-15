@@ -1,0 +1,146 @@
+dataset: UMD
+mode: rulebased
+classifier: miniRocket
+llm: gpt-5.1
+k: 3
+rules: 3
+repetition: 1
+
+=== Rule Generation Response ===
+Class 0:
+R1: The series contains one long plateau in the middle whose level is clearly different (much lower or much higher) than the levels at the beginning and the end.  
+R2: There is at least one very short, pronounced upward spike near one side (beginning or end) that rises well above the surrounding values.  
+R3: Any low values occur over broad plateaus; there are no isolated, very narrow downward spikes to the minimum.
+
+Class 1:
+R1: The series has a single, wide, almost flat high plateau in the middle that is clearly higher than the values at both edges.  
+R2: The beginning and end are at roughly the same medium level, with only small fluctuations around that level.  
+R3: Apart from the step up into and down from the middle plateau, there are no sharp, isolated spikes or dips.
+
+Class 2:
+R1: The series contains at least one very narrow, deep downward spike that goes much lower than the surrounding values.  
+R2: Aside from these spikes, the series consists of one or two broad plateaus (possibly one low in the middle or one high in the middle) that are much wider than the spikes.  
+R3: There is no very narrow, tall upward spike that rises noticeably above the surrounding plateau.
+
+=== Classification Batch start=0 size=10 ===
+Predicted class: 2  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 2  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1
+
+=== Classification Batch start=10 size=10 ===
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 2  
+Predicted class: 0
+
+=== Classification Batch start=20 size=10 ===
+Predicted class: 0  
+Predicted class: 2  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 2  
+Predicted class: 2
+
+=== Classification Batch start=30 size=10 ===
+Predicted class: 0  
+Predicted class: 2  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 2  
+Predicted class: 1  
+Predicted class: 2  
+Predicted class: 0  
+Predicted class: 2  
+Predicted class: 1
+
+=== Classification Batch start=40 size=10 ===
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 2  
+Predicted class: 0  
+Predicted class: 2  
+Predicted class: 0  
+Predicted class: 2  
+Predicted class: 2  
+Predicted class: 2  
+Predicted class: 1
+
+=== Classification Batch start=50 size=10 ===
+Predicted class: 2  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 2  
+Predicted class: 2  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 2  
+Predicted class: 1  
+Predicted class: 1
+
+=== Classification Batch start=60 size=10 ===
+In order of the 10 plots as given:
+
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 2  
+Predicted class: 1  
+Predicted class: 0
+
+=== Classification Batch start=70 size=10 ===
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 2  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 2  
+Predicted class: 2  
+Predicted class: 1
+
+=== Classification Batch start=80 size=10 ===
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+
+=== Classification Batch start=90 size=10 ===
+1. Predicted class: 2  
+2. Predicted class: 2  
+3. Predicted class: 2  
+4. Predicted class: 1  
+5. Predicted class: 0  
+6. Predicted class: 1  
+7. Predicted class: 2  
+8. Predicted class: 0  
+9. Predicted class: 2  
+10. Predicted class: 2
+

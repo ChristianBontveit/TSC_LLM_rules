@@ -1,0 +1,135 @@
+dataset: SonyAIBORobotSurface1
+mode: rulebased
+classifier: miniRocket
+llm: gpt-5.1
+k: 3
+rules: 1
+repetition: 3
+
+=== Rule Generation Response ===
+Class 0:
+R1: In the middle portion of the series (roughly samples 25–50), the signal oscillates, with several changes between rising and falling (a wiggly pattern of peaks and troughs) rather than forming one long, mostly monotonic downward ramp.
+
+Class 1:
+R1: In the middle portion of the series (roughly samples 25–50), the signal forms one clear downward ramp: after reaching a high level (around 0.6–0.8) it decreases almost monotonically to a low value (around 0.1 or below) without substantial rebounds in between.
+
+=== Classification Batch start=0 size=10 ===
+1: Predicted class: 0  
+2: Predicted class: 1  
+3: Predicted class: 1  
+4: Predicted class: 0  
+5: Predicted class: 0  
+6: Predicted class: 1  
+7: Predicted class: 0  
+8: Predicted class: 1  
+9: Predicted class: 0  
+10: Predicted class: 1
+
+=== Classification Batch start=10 size=10 ===
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0
+
+=== Classification Batch start=20 size=10 ===
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0
+
+=== Classification Batch start=30 size=10 ===
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0
+
+=== Classification Batch start=40 size=10 ===
+1. Predicted class: 0  
+2. Predicted class: 0  
+3. Predicted class: 0  
+4. Predicted class: 0  
+5. Predicted class: 0  
+6. Predicted class: 0  
+7. Predicted class: 0  
+8. Predicted class: 0  
+9. Predicted class: 0  
+10. Predicted class: 0
+
+=== Classification Batch start=50 size=10 ===
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0
+
+=== Classification Batch start=60 size=10 ===
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0
+
+=== Classification Batch start=70 size=10 ===
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0
+
+=== Classification Batch start=80 size=10 ===
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0
+
+=== Classification Batch start=90 size=10 ===
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0
+

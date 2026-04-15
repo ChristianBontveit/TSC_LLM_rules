@@ -1,0 +1,115 @@
+dataset: Chinatown
+mode: baseline
+classifier: miniRocket
+llm: gpt-5.1
+k: 3
+rules: 2
+repetition: 2
+
+=== Baseline Response ===
+For class 0, the series start at a relatively higher value (~0.2–0.35), drop toward zero in the first few steps, then rise sharply to a high plateau (around 0.6–0.9) before decreasing again. Overall they look like a vertically shifted “higher-offset” version of the pattern.
+
+For class 1, the series begin much closer to zero (typically below ~0.1), stay low for a few steps, then rise to a similar-shaped peak/plateau, and finally fall back down. The main discriminative feature is the vertical offset at the beginning: class 0 has a clearly higher initial level than class 1, with otherwise very similar shapes.
+
+For each unlabeled instance, I compared its early segment (especially the value at time 0 and the first few points) to the prototypes: if the initial values were clearly higher and matched the class‑0 shape, I labeled it 0; if they started near zero and matched the class‑1 shape, I labeled it 1.
+
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1

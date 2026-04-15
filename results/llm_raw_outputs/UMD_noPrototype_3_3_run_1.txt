@@ -1,0 +1,144 @@
+dataset: UMD
+mode: noPrototype
+classifier: miniRocket
+llm: gpt-5.1
+k: 3
+rules: 3
+repetition: 1
+
+=== Rule Generation Response ===
+Class 0:
+R1: The middle third of the series forms one long, deep valley where the values stay clearly below the surrounding baseline level.  
+R2: There is exactly one short, sharp peak above the baseline, located outside the middle valley (near the beginning or near the end).  
+R3: Apart from that single peak and the central valley, the signal remains approximately flat around an intermediate baseline.
+
+Class 1:
+R1: The middle third of the series forms one long, high plateau where the values stay clearly above the baseline.  
+R2: In the first third, the values stay close to a lower baseline level with no pronounced peaks or valleys.  
+R3: In the last third, the values return to roughly the same lower baseline with no additional pronounced peaks or valleys.
+
+Class 2:
+R1: The middle third of the series shows one long, strong deviation from the baseline (either a high plateau or a deep valley) that lasts for an extended period.  
+R2: After the middle deviation, the series returns near the baseline and then exhibits a short, very deep downward dip in the last third.  
+R3: All short, sharp excursions in the series are downward dips; there are no isolated short upward spikes above the baseline.
+
+=== Classification Batch start=0 size=10 ===
+Predicted class: 2  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: None (does not satisfy rules for any of classes 0, 1, or 2)  
+Predicted class: None (does not satisfy rules for any of classes 0, 1, or 2)  
+Predicted class: 1  
+Predicted class: None (does not satisfy rules for any of classes 0, 1, or 2)  
+Predicted class: 1  
+Predicted class: None (does not satisfy rules for any of classes 0, 1, or 2)
+
+=== Classification Batch start=10 size=10 ===
+Predicted class: None  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: None  
+Predicted class: 1  
+Predicted class: 2  
+Predicted class: 2  
+Predicted class: None  
+Predicted class: None
+
+=== Classification Batch start=20 size=10 ===
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 2  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 2
+
+=== Classification Batch start=30 size=10 ===
+Predicted class: 1  
+Predicted class: none  
+Predicted class: none  
+Predicted class: none  
+Predicted class: 1  
+Predicted class: none  
+Predicted class: none  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1
+
+=== Classification Batch start=40 size=10 ===
+Predicted class: 0  
+Predicted class: 2  
+Predicted class: None  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: None  
+Predicted class: 2
+
+=== Classification Batch start=50 size=10 ===
+Predicted class: 2  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1
+
+=== Classification Batch start=60 size=10 ===
+Predicted class: 2  
+Predicted class: 1  
+Predicted class: 2  
+Predicted class: None  
+Predicted class: 2  
+Predicted class: None  
+Predicted class: 0  
+Predicted class: None  
+Predicted class: 1  
+Predicted class: 1
+
+=== Classification Batch start=70 size=10 ===
+Predicted class: none  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: none  
+Predicted class: none  
+Predicted class: 2  
+Predicted class: 1
+
+=== Classification Batch start=80 size=10 ===
+Predicted class: 2  
+Predicted class: 2  
+Predicted class: 1  
+Predicted class: 2  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1
+
+=== Classification Batch start=90 size=10 ===
+1. Predicted class: 1  
+2. Predicted class: 1  
+3. Predicted class: none (does not strictly satisfy any of the three rule sets)  
+4. Predicted class: 1  
+5. Predicted class: 1  
+6. Predicted class: none (does not strictly satisfy any of the three rule sets)  
+7. Predicted class: 1  
+8. Predicted class: 0  
+9. Predicted class: 2  
+10. Predicted class: none (does not strictly satisfy any of the three rule sets)
+

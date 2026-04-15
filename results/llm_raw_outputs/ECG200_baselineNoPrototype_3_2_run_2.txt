@@ -1,0 +1,118 @@
+dataset: ECG200
+mode: baselineNoPrototype
+classifier: miniRocket
+llm: gpt-5.1
+k: 3
+rules: 2
+repetition: 2
+
+=== Baseline Response ===
+From the labeled examples, both classes show an early high followed by a pronounced valley and later recovery. The most discriminative difference appears in the last third of the series:
+
+- **Class 0:** after the valley, the series rises to a mid‑high level (~0.45–0.55) and then stays relatively flat or slightly increasing, with only moderate noise and without a strong downward drift at the end.  
+- **Class 1:** after recovery, the last third typically shows either a clear downward trend or a distinctive late spike/drop, i.e., noticeably more “destabilized” endings.
+
+For the new instances, I inspected each plot and assigned:
+- **Class 0** when the final segment is flat or gently rising without a strong late decline.
+- **Class 1** when the ending segment slopes down or has a strong terminal spike/drop consistent with class‑1 examples.
+
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1

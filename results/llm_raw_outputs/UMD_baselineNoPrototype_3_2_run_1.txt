@@ -1,0 +1,117 @@
+dataset: UMD
+mode: baselineNoPrototype
+classifier: miniRocket
+llm: gpt-5.1
+k: 3
+rules: 2
+repetition: 1
+
+=== Baseline Response ===
+From the labeled examples:
+
+- Class 1: A single long, roughly rectangular plateau above the baseline, with no additional sharp spikes or dips.  
+- Class 0: Same long plateau structure, but with at least one extra sharp upward spike (triangle-like) either before or after the plateau.  
+- Class 2: Same long plateau structure, but with at least one extra sharp downward spike/dip, clearly below the surrounding baseline/plateau.
+
+For each new series, I compared whether any additional narrow excursions existed and, if so, whether they were upward (class 0) or downward (class 2); if there were no such spikes/dips, I assigned class 1.
+
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
+Predicted class: 1
+Predicted class: 2
+Predicted class: 0
