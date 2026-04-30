@@ -62,8 +62,11 @@ def add_prototypes_page(pdf: PdfPages, dataset: str, k: int):
             ax = axes[label][proto_idx]
             ax.plot(prototypes[idx])
             ax.set_title(f"Class {label} - P{proto_idx + 1}")
-            ax.set_xticks([])
-            ax.set_yticks([])
+            # Replace the two lines below in both plotting functions
+            # ax.set_xticks([])
+            # ax.set_yticks([])
+
+            ax.tick_params(axis="both", which="both", labelsize=8)
             idx += 1
 
     fig.suptitle(f"{dataset} - Rulebased prototypes (k={k})")
@@ -92,8 +95,11 @@ def add_support_examples_page(pdf: PdfPages, dataset: str, support_examples: lis
                 ax.set_title(f"Class {label} - idx {ts_idx}")
             else:
                 ax.axis("off")
-            ax.set_xticks([])
-            ax.set_yticks([])
+            # Replace the two lines below in both plotting functions
+            # ax.set_xticks([])
+            # ax.set_yticks([])
+
+                ax.tick_params(axis="both", which="both", labelsize=8)
 
     fig.suptitle(title)
     fig.tight_layout()
