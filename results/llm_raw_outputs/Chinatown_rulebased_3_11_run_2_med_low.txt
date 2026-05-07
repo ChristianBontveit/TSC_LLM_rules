@@ -1,0 +1,135 @@
+dataset: Chinatown
+mode: rulebased
+classifier: miniRocket
+llm: gpt-5.1
+k: 3
+rules: 11
+repetition: 2
+
+=== Rule Generation Response ===
+Class 0:  
+R1: In the first third of the series, the signal starts at a clearly *non‑zero* level and then declines; the average value over this early region is noticeably above zero (roughly > 0.07), so the early segment looks like a small shoulder rather than a flat line near zero.
+
+Class 1:  
+R1: In the first third of the series, the signal stays very close to zero with a nearly flat baseline; the average value over this early region is very low (roughly < 0.07), with most points hugging the zero line before the mid‑series rise.
+
+=== Classification Batch start=0 size=10 ===
+1. Predicted class: 1  
+2. Predicted class: 0  
+3. Predicted class: 1  
+4. Predicted class: 1  
+5. Predicted class: 1  
+6. Predicted class: 1  
+7. Predicted class: 0  
+8. Predicted class: 1  
+9. Predicted class: 0  
+10. Predicted class: 1
+
+=== Classification Batch start=10 size=10 ===
+1. Predicted class: 1  
+2. Predicted class: 0  
+3. Predicted class: 0  
+4. Predicted class: 1  
+5. Predicted class: 1  
+6. Predicted class: 1  
+7. Predicted class: 1  
+8. Predicted class: 1  
+9. Predicted class: 1  
+10. Predicted class: 1
+
+=== Classification Batch start=20 size=10 ===
+Image 1: Predicted class: 1  
+Image 2: Predicted class: 1  
+Image 3: Predicted class: 0  
+Image 4: Predicted class: 1  
+Image 5: Predicted class: 1  
+Image 6: Predicted class: 0  
+Image 7: Predicted class: 1  
+Image 8: Predicted class: 0  
+Image 9: Predicted class: 0  
+Image 10: Predicted class: 1
+
+=== Classification Batch start=30 size=10 ===
+1. Predicted class: 1  
+2. Predicted class: 1  
+3. Predicted class: 1  
+4. Predicted class: 0  
+5. Predicted class: 0  
+6. Predicted class: 0  
+7. Predicted class: 1  
+8. Predicted class: 0  
+9. Predicted class: 1  
+10. Predicted class: 1
+
+=== Classification Batch start=40 size=10 ===
+1. Predicted class: 1  
+2. Predicted class: 0  
+3. Predicted class: 1  
+4. Predicted class: 0  
+5. Predicted class: 1  
+6. Predicted class: 0  
+7. Predicted class: 1  
+8. Predicted class: 1  
+9. Predicted class: 1  
+10. Predicted class: 1
+
+=== Classification Batch start=50 size=10 ===
+1. Predicted class: 1  
+2. Predicted class: 0  
+3. Predicted class: 0  
+4. Predicted class: 1  
+5. Predicted class: 1  
+6. Predicted class: 1  
+7. Predicted class: 0  
+8. Predicted class: 1  
+9. Predicted class: 1  
+10. Predicted class: 1
+
+=== Classification Batch start=60 size=10 ===
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0
+
+=== Classification Batch start=70 size=10 ===
+1. Predicted class: 1  
+2. Predicted class: 1  
+3. Predicted class: 1  
+4. Predicted class: 0  
+5. Predicted class: 1  
+6. Predicted class: 1  
+7. Predicted class: 1  
+8. Predicted class: 0  
+9. Predicted class: 0  
+10. Predicted class: 1
+
+=== Classification Batch start=80 size=10 ===
+1. Predicted class: 1  
+2. Predicted class: 0  
+3. Predicted class: 0  
+4. Predicted class: 1  
+5. Predicted class: 1  
+6. Predicted class: 1  
+7. Predicted class: 0  
+8. Predicted class: 0  
+9. Predicted class: 1  
+10. Predicted class: 0
+
+=== Classification Batch start=90 size=10 ===
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1
+

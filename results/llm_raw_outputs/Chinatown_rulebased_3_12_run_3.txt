@@ -1,0 +1,137 @@
+dataset: Chinatown
+mode: rulebased
+classifier: miniRocket
+llm: gpt-5.1
+k: 3
+rules: 12
+repetition: 3
+
+=== Rule Generation Response ===
+Class 0:
+R1: In the early segment, there is a clear initial hump, with at least one value well above about 0.2 before dropping toward zero.  
+R2: This early hump shows a noticeable downward trend into a low trough before the strong mid-series rise, giving a “high-then-dip” shape at the start.
+
+Class 1:
+R1: In the early segment, the signal stays close to baseline, with all values at or below about 0.15 and no distinct pre-peak hump.  
+R2: The start of the series is mostly flat and low until the main mid-series rise, without a pronounced “high-then-dip” pattern.
+
+=== Classification Batch start=0 size=10 ===
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1
+
+=== Classification Batch start=10 size=10 ===
+1) Predicted class: 0  
+2) Predicted class: 1  
+3) Predicted class: 1  
+4) Predicted class: 1  
+5) Predicted class: 1  
+6) Predicted class: 1  
+7) Predicted class: 1  
+8) Predicted class: 1  
+9) Predicted class: 1  
+10) Predicted class: 0
+
+=== Classification Batch start=20 size=10 ===
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1
+
+=== Classification Batch start=30 size=10 ===
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1
+
+=== Classification Batch start=40 size=10 ===
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1
+
+=== Classification Batch start=50 size=10 ===
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1
+
+=== Classification Batch start=60 size=10 ===
+1) Predicted class: 1  
+2) Predicted class: 1  
+3) Predicted class: 1  
+4) Predicted class: 1  
+5) Predicted class: 1  
+6) Predicted class: 0  
+7) Predicted class: 1  
+8) Predicted class: 1  
+9) Predicted class: 1  
+10) Predicted class: 0
+
+=== Classification Batch start=70 size=10 ===
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0
+
+=== Classification Batch start=80 size=10 ===
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1
+
+=== Classification Batch start=90 size=10 ===
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0
+
