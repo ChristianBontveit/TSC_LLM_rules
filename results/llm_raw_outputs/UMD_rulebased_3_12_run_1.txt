@@ -1,0 +1,141 @@
+dataset: UMD
+mode: rulebased
+classifier: miniRocket
+llm: gpt-5.1
+k: 3
+rules: 12
+repetition: 1
+
+=== Rule Generation Response ===
+Class 0:
+R1: The middle third forms a broad, flat low valley clearly below both the early and late thirds, and any low region is wide rather than a sharp dip.
+R2: In examples with a high middle plateau, the rise into this plateau already starts within the early third, so the early third shows a noticeable upward trend and a higher average level than the late third, with no very sharp deep troughs anywhere.
+
+Class 1:
+R1: The middle third is a single broad high plateau clearly above both the early and late thirds.
+R2: The early and late thirds are almost flat at a similar low level, with no additional pronounced peaks or troughs outside the central high plateau.
+
+Class 2:
+R1: There is at least one very sharp, narrow, deep V-shaped trough in the early or late third that drops far below the surrounding baseline.
+R2: Apart from these sharp troughs, the series is piecewise flat, typically showing either a broad low middle valley or a broad high middle plateau.
+
+=== Classification Batch start=0 size=10 ===
+Predicted class: 2  
+Predicted class: 2  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 2  
+Predicted class: 2  
+Predicted class: 2  
+Predicted class: 2
+
+=== Classification Batch start=10 size=10 ===
+1. Predicted class: 2  
+2. Predicted class: 0  
+3. Predicted class: 1  
+4. Predicted class: 1  
+5. Predicted class: 2  
+6. Predicted class: 1  
+7. Predicted class: 1  
+8. Predicted class: 1  
+9. Predicted class: 2  
+10. Predicted class: 2
+
+=== Classification Batch start=20 size=10 ===
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 2  
+Predicted class: 2  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 2
+
+=== Classification Batch start=30 size=10 ===
+Predicted class: 2  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 2  
+Predicted class: 0  
+Predicted class: 2  
+Predicted class: 0  
+Predicted class: 2  
+Predicted class: 0
+
+=== Classification Batch start=40 size=10 ===
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 2  
+Predicted class: 2  
+Predicted class: 2  
+Predicted class: 1  
+Predicted class: 2  
+Predicted class: 1  
+Predicted class: 2
+
+=== Classification Batch start=50 size=10 ===
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 2  
+Predicted class: 0  
+Predicted class: 2  
+Predicted class: 1  
+Predicted class: 2  
+Predicted class: 2  
+Predicted class: 0  
+Predicted class: 1
+
+=== Classification Batch start=60 size=10 ===
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 2  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 2  
+Predicted class: 2  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1
+
+=== Classification Batch start=70 size=10 ===
+Predicted class: 2  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1
+
+=== Classification Batch start=80 size=10 ===
+Predicted class: 0  
+Predicted class: 2  
+Predicted class: 2  
+Predicted class: 0  
+Predicted class: 2  
+Predicted class: 2  
+Predicted class: 2  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0
+
+=== Classification Batch start=90 size=10 ===
+Predicted class: 1  
+Predicted class: 2  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 2  
+Predicted class: 1  
+Predicted class: 2  
+Predicted class: 1  
+Predicted class: 2  
+Predicted class: 1
+

@@ -122,37 +122,39 @@ def prompt_baseline_model(llm_model: str, k_img: list[str], test_sample: list[st
 ### PROMPT BUILDERS FOR RULE EXTRACTION AND CLASSIFICATION WITH RULES
 def build_rule_prompt(images: list[str], num_labels: int, n_rules: int):
     labels = range(0, num_labels)
+    num_images = len(images)    # num prototypes
     classes = ", ".join(map(str, labels))
 
     prompt = [
         {"type": "text",
         "text": f"""
 
-        You are a time-series classification expert. You are given labeled examples for classes {classes}.
+        You are a time-series classification expert analyzing labeled prototypes for classes {classes} ({num_images} prototypes per class).
+        Follow these steps:
+        Step 1 — Analyze differences between classes Identify which regions (early, middle, late) differ most, and whether differences are best described by: thresholds, trends, peaks/troughs, plateaus, or temporal shape patterns.
+        Step 2 — Build a feature summary Determine which of the following are most discriminative between classes:
+            • Region statistics (mean/min/max in early, middle, late)
+            • Trends (rising/falling)
+            • Peaks, troughs, plateaus
+            • Relative differences between regions
+        Step 3 — Generate human-readable classification rules Each rule must:
+            • Describe one main concept
+            • Use either a numeric comparison or a descriptive shape term (e.g. upward peak, broad plateau, falling trend, rising tail)
+            • Be as concise as possible
+        Avoid: redundant rules, conditions shared by all classes, mathematical notation, ambiguity.
+        Step 4 — Validate internally Check that the rules correctly distinguish the prototypes. Refine any non-discriminative rules. Prefer the smallest rule set that separates all classes.
 
-        There are three prototypes for each of the classes.
-        I want you to provide me , a human-understandable rule for each class.
-        Output only the rules.
-        Structure each rule so that it is composed of sub-rules enumerated as R1, R2, etc.
-        Each sub-rule only covers one condition.
-        Use at most {n_rules} sub-rules per class.
+       **Output format (strictly):**
 
-        Use the following format for your answer:
-
-        Class <class_label>:
+        Final rules:
+        Class <label>:
         R1: ...
         R2: ...
-        ...
-        
-        Class <class_label>:
-        R1: ...
-        R2: ...
-        ...
+
         
         """}
         ]
 
-    num_images = len(images)
     num_images_per_label = int(num_images / num_labels)
 
     for label in labels:
@@ -276,24 +278,24 @@ def select_random_timeseries(dataset_name: str, num_instances: int, data_type: s
 ### NEW FUNCTIONS FOR RULE EXTRACTION AND CLASSIFICATION WITH RULES
 def extract_rule(llm_model: str, k_img: list[str], labels: int, n_rules: int):
     prompt = build_rule_prompt(k_img, labels, n_rules)
-    rule = get_response(prompt, llm_model, reasoning_effort="high")
+    rule = get_response(prompt, llm_model, reasoning_effort="med")   ### changes the reasoning effort for rule generation
     return rule
 
-"""
-def classify_with_rule(llm_model: str, rule: str, test_img: list[str], test_labels: list[int], labels: int):
-    prompt = build_classification_prompt(rule, test_img)
-    response = get_response(prompt, llm_model, reasoning_effort="low")
 
-    pattern = r"Predicted class:\s+(\d+)"
-    predicted_labels = [int(x) for x in re.findall(pattern, response)]
+# def classify_with_rule(llm_model: str, rule: str, test_img: list[str], test_labels: list[int], labels: int):
+#     prompt = build_classification_prompt(rule, test_img)
+#     response = get_response(prompt, llm_model, reasoning_effort="low")
 
-    acc = sum(
-        1 for i in range(len(test_labels))
-        if i < len(predicted_labels) and predicted_labels[i] == test_labels[i]
-    ) / len(test_labels)
+#     pattern = r"Predicted class:\s+(\d+)"
+#     predicted_labels = [int(x) for x in re.findall(pattern, response)]
 
-    return acc, predicted_labels, response
-"""
+#     acc = sum(
+#         1 for i in range(len(test_labels))
+#         if i < len(predicted_labels) and predicted_labels[i] == test_labels[i]
+#     ) / len(test_labels)
+
+#     return acc, predicted_labels, response
+
 
 ### batch classify
 def batch_classify_with_rule(llm_model: str, rule: str, test_imgs: list[str], test_labels: list[int], batch_size: int = 10):
@@ -306,7 +308,7 @@ def batch_classify_with_rule(llm_model: str, rule: str, test_imgs: list[str], te
         
         # Build prompt for just this chunk
         prompt = build_classification_prompt(rule, chunk_imgs)
-        response = get_response(prompt, llm_model, reasoning_effort="high")
+        response = get_response(prompt, llm_model, reasoning_effort="low")    ### changes the reasoning effort for classification
         raw_batch_responses.append({
             "batch_start": i,
             "batch_size": len(chunk_imgs),
@@ -354,22 +356,6 @@ def swap_rules_robust(rules_text: str) -> str:
     
     return swapped_text
 
-UMD_rule = '''Class 0:
-R1: There is one long plateau where the value is clearly lower than its typical baseline level.  
-R2: On at least one side of this low plateau, the series returns to the baseline and briefly overshoots it with a sharp high peak.  
-R3: Outside the low plateau (beginning and end of the series), the values stay roughly around the same baseline level.
-
-Class 1:
-R1: There is one long plateau where the value is clearly higher than its typical baseline level.  
-R2: Before this high plateau, the series stays near a lower, roughly constant baseline.  
-R3: After this high plateau, the series drops back to a similar lower baseline and stays there without any extra sharp peaks.
-
-Class 2:
-R1: There is one long plateau where the value is clearly lower than its typical baseline level.
-R2: Outside this low plateau, the series is mostly at a higher, roughly constant baseline.
-R3: In addition to the main low plateau, there is at least one extra sharp dip or valley that goes noticeably below the surrounding values.
-'''
-
 def argparser():
     parser = argparse.ArgumentParser()
     parser.add_argument('--dataset', type=str, help="Dataset to feed samples from.")
@@ -407,16 +393,6 @@ if __name__ == '__main__':
         test_ts_labels = model_batch_classify(f"./models/{args.dataset}/{classifier_file}", test_ts_norm, len(set(prot_labels)))  #type: ignore
         prot_img_simp, test_img_simp = simp_ts_to_img(prototipes_ts_norm, dataset_ts_labels, test_ts_norm)
 
-        ### old setup    
-        #if args.mode == "baseline":
-        #    accuracy, preds = prompt_baseline_model(args.llm, prot_img_simp, test_img_simp, test_ts_labels, len(set(prot_labels)))
-        #elif args.mode in ["rulebased", "noPrototype"]:
-        #    rule = extract_rule(args.llm, prot_img_simp, len(set(prot_labels)), args.rules)
-        #    print("Extracted Rule:\n", rule)
-        #    accuracy, preds = classify_with_rule(args.llm, rule, test_img_simp, test_ts_labels, len(set(prot_labels)))
-        #else:
-        #    raise ValueError(f"Unknown mode: {args.mode}")   
-
         if args.mode in ["baseline", "baselineNoPrototype"]:
             accuracy, preds, baseline_response = prompt_baseline_model(args.llm, prot_img_simp, test_img_simp, test_ts_labels, len(set(prot_labels)))
             if args.save_raw_outputs:
@@ -428,29 +404,6 @@ if __name__ == '__main__':
             # generate one set of rules
             rule = extract_rule(args.llm, prot_img_simp, len(set(prot_labels)), args.rules)
             print("Extracted Rule:\n", rule)
-
-            # print("\n")
-
-            # # Before classify_with_rule...
-            # original_rule = rule
-            # rule = swap_rules_robust(rule)
-
-            # print('swapped rule:\n', rule)
-
-            # # Verify
-            # if original_rule == rule:
-            #     print("CRITICAL: The swap did not happen!")
-            # else:
-            #     print("SUCCESS: Rules have been swapped.")
-
-            ### UMD rule
-            # org_rule = rule
-            # rule = UMD_rule
-
-            # print("\n")
-
-            # print('UMD rule:\n', rule)
-
             
             # batch classifier
             accuracy, preds, raw_batch_responses = batch_classify_with_rule(
