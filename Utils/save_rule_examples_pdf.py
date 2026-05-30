@@ -21,22 +21,55 @@ def parse_args():
     parser.add_argument("--num_rules", type=int, default=3)
     parser.add_argument("--output", type=str, default=None)
     parser.add_argument("--all_rules", action="store_true")
+    parser.add_argument("--prompt_version", type=str, default="promptV0")
     return parser.parse_args()
 
 
-def load_runs(dataset: str, mode: str, k: int, num_rules: int) -> list[dict]:
-    path = f"results/llm_results/{dataset}_{mode}_{k}_{num_rules}_llm_results.jsonl"
-    runs = []
+# def load_runs(dataset: str, mode: str, prompt_version: str ,k: int, num_rules: int) -> list[dict]:
+#     path = f"results/llm_results/{dataset}_{mode}_{prompt_version}_{k}_{num_rules}_llm_results.jsonl"
+#     runs = []
 
-    if not os.path.exists(path):
-        print(f"Warning: No results found for {dataset} with mode {mode}, k={k}, num_rules={num_rules}")
-        return runs
+#     if not os.path.exists(path):
+#         print(f"Warning: No results found for {dataset} with mode {mode}, k={k}, num_rules={num_rules}")
+#         return runs
     
-    with open(path, "r") as f:
-        for line in f:
-            row = json.loads(line)
-            if row["k"] == k and row["num_rules"] == num_rules:
-                runs.append(row)
+#     with open(path, "r") as f:
+#         for line in f:
+#             row = json.loads(line)
+#             if row["k"] == k and row["num_rules"] == num_rules:
+#                 runs.append(row)
+#     return runs
+
+from pathlib import Path
+
+def load_runs(dataset: str, mode: str, prompt_version: str | None = None, k: int = 3, num_rules: int = 3) -> list[dict]:
+    base = Path("results/llm_results")
+    patterns = []
+    # If a specific prompt_version is requested, only include that exact prompt file
+    # (older naming convention). Avoid the wildcard pattern which would
+    # match other prompt versions (e.g., promptV2 when requesting promptV3).
+    if prompt_version:
+        patterns.append(f"{dataset}_{mode}_{prompt_version}_{k}_{num_rules}_llm_results.jsonl")
+    else:
+        # No prompt specified: include both legacy and any prompt-versioned files
+        patterns.append(f"{dataset}_{mode}_{k}_{num_rules}_llm_results.jsonl")
+        patterns.append(f"{dataset}_{mode}_*_{k}_{num_rules}_llm_results.jsonl")
+
+    seen = set()
+    runs = []
+    for pat in patterns:
+        for path in sorted(base.glob(pat)):
+            if path in seen:
+                continue
+            seen.add(path)
+            with path.open("r", encoding="utf-8") as f:
+                for line in f:
+                    row = json.loads(line)
+                    if row.get("k") == k and row.get("num_rules") == num_rules:
+                        runs.append(row)
+
+    if not runs:
+        print(f"Warning: No results found for {dataset} with mode {mode}, k={k}, num_rules={num_rules}")
     return runs
 
 
@@ -119,11 +152,15 @@ def add_rules_page(pdf: PdfPages, title: str, rules_text: str):
 
 def main():
     args = parse_args()
-    output = args.output or f"results/llm_results/{args.dataset}_rule_examples_k{args.k}_r{args.num_rules}.pdf"
 
-    rulebased_runs = load_runs(args.dataset, "rulebased", args.k, args.num_rules)
-    no_prototype_runs = load_runs(args.dataset, "noPrototype", args.k, args.num_rules)
-    baseline_no_prototype_runs = load_runs(args.dataset, "baselineNoPrototype", args.k, args.num_rules)
+    if args.prompt_version:
+        output = args.output or f"results/llm_results/{args.dataset}_{args.prompt_version}_rule_examples_k{args.k}_r{args.num_rules}.pdf"
+    else:
+        output = args.output or f"results/llm_results/{args.dataset}_rule_examples_k{args.k}_r{args.num_rules}.pdf"
+
+    rulebased_runs = load_runs(args.dataset, "rulebased", prompt_version=args.prompt_version, k=args.k, num_rules=args.num_rules)
+    no_prototype_runs = load_runs(args.dataset, "noPrototype", prompt_version=args.prompt_version, k=args.k, num_rules=args.num_rules)
+    baseline_no_prototype_runs = load_runs(args.dataset, "baselineNoPrototype", prompt_version=args.prompt_version, k=args.k, num_rules=args.num_rules)
 
     if not args.all_rules:
         rulebased_runs = [rulebased_runs[-1]]

@@ -6,7 +6,7 @@ import numpy as np
 import base64
 from dotenv import load_dotenv, dotenv_values
 from Utils.load_models import model_batch_classify
-from Utils.selectPrototypes import select_prototypes
+from Utils.selectPrototypes import select_prototypes, select_random_timeseries
 from Utils.load_data import load_dataset, load_dataset_labels, normalize_data
 from Utils.save_llm_results import save_raw_outputs_txt, save_results
 import openai
@@ -37,7 +37,6 @@ client = OpenAI(api_key=api_key)
 DEBUG = False
 logger = logging.getLogger(__name__)
 
-
 def should_retry_openai_error(exc: Exception) -> bool:
     if isinstance(
         exc,
@@ -57,7 +56,6 @@ def should_retry_openai_error(exc: Exception) -> bool:
 
     return False
 
-
 @retry(
     retry=retry_if_exception(should_retry_openai_error),
     wait=wait_exponential(multiplier=1, min=1, max=20),
@@ -73,6 +71,7 @@ def get_response(prompt: list[dict], model:str, reasoning_effort: str = "high") 
         reasoning_effort=reasoning_effort,
     )
     return response.choices[0].message.content
+
 
 ### baseline experiment no rules
 def build_baseline_prompt(images: list[str], test_samples: list[str], num_labels: int) -> list[dict]:
@@ -119,6 +118,7 @@ def prompt_baseline_model(llm_model: str, k_img: list[str], test_sample: list[st
 
     return acc, preds, response
 
+
 ### PROMPT BUILDERS FOR RULE EXTRACTION AND CLASSIFICATION WITH RULES
 def build_rule_prompt(images: list[str], num_labels: int, n_rules: int):
     labels = range(0, num_labels)
@@ -143,15 +143,13 @@ def build_rule_prompt(images: list[str], num_labels: int, n_rules: int):
             • Be as concise as possible
         Avoid: redundant rules, conditions shared by all classes, mathematical notation, ambiguity.
         Step 4 — Validate internally Check that the rules correctly distinguish the prototypes. Refine any non-discriminative rules. Prefer the smallest rule set that separates all classes.
-
-       **Output format (strictly):**
-
-        Final rules:
+        
+        Output format (strictly):
         Class <label>:
         R1: ...
         R2: ...
+        ...
 
-        
         """}
         ]
 
@@ -190,6 +188,7 @@ def build_classification_prompt(rule: str, test_samples: list[str]):
 
     return prompt
 
+
 def get_idx_per_cls(labels_ts: np.ndarray, k_cls:int) -> dict[str,list[int]]:
     labels = np.unique(labels_ts)
     idx_labels = {}
@@ -224,7 +223,6 @@ def ts_to_image(ts: np.ndarray, show_fig: bool = False, name: str = ""):
     img_b64 = base64.b64encode(buf.read()).decode()
     return f"data:image/png;base64,{img_b64}"
 
-
 def simp_ts_to_img(dataset_ts: np.ndarray, dataset_ts_labels: list[int], test_ts: np.ndarray) -> tuple[list[str], list[str]]:
     dataset_ts = dataset_ts
     dataset_ts_labels = dataset_ts_labels
@@ -235,67 +233,12 @@ def simp_ts_to_img(dataset_ts: np.ndarray, dataset_ts_labels: list[int], test_ts
 
     return k_img, test_sample
 
-### selecy random timeseries for no prototype run
-def select_random_timeseries(dataset_name: str, num_instances: int, data_type: str="TEST_normalized", return_metadata: bool=False):
-    # Load dataset and labels
-    X_data = load_dataset(dataset_name=dataset_name, data_type=data_type)
-    labels = np.array(load_dataset_labels(dataset_name=dataset_name, data_type=data_type))
-    
-    unique_labels = np.unique(labels)
-    prototypes_list = []
-    support_examples = []
-
-    # For each label, pick random samples
-    for label in unique_labels:
-        mask = labels == label
-        dataset_indices = np.where(mask)[0]
-        X_label = X_data[mask]
-        
-        if len(X_label) < num_instances:
-            continue  # Skip if not enough samples
-        
-        # Instead of KMedoids, we just pick indices at random
-        rand_indices = np.random.choice(X_label.shape[0], num_instances, replace=False)
-        prototypes = X_label[rand_indices]
-        prototypes_list.append(prototypes)
-        support_examples.append({
-            "class_label": int(label),
-            "selection_type": "random",
-            "indices": dataset_indices[rand_indices].astype(int).tolist(),
-        })
-
-    # Return
-    if prototypes_list:
-        prototypes = np.concatenate(prototypes_list)
-    else:
-        prototypes = np.array([])
-
-    if return_metadata:
-        return prototypes, support_examples
-
-    return prototypes
 
 ### NEW FUNCTIONS FOR RULE EXTRACTION AND CLASSIFICATION WITH RULES
 def extract_rule(llm_model: str, k_img: list[str], labels: int, n_rules: int):
     prompt = build_rule_prompt(k_img, labels, n_rules)
-    rule = get_response(prompt, llm_model, reasoning_effort="med")   ### changes the reasoning effort for rule generation
+    rule = get_response(prompt, llm_model, reasoning_effort="high")   ### changes the reasoning effort for rule generation
     return rule
-
-
-# def classify_with_rule(llm_model: str, rule: str, test_img: list[str], test_labels: list[int], labels: int):
-#     prompt = build_classification_prompt(rule, test_img)
-#     response = get_response(prompt, llm_model, reasoning_effort="low")
-
-#     pattern = r"Predicted class:\s+(\d+)"
-#     predicted_labels = [int(x) for x in re.findall(pattern, response)]
-
-#     acc = sum(
-#         1 for i in range(len(test_labels))
-#         if i < len(predicted_labels) and predicted_labels[i] == test_labels[i]
-#     ) / len(test_labels)
-
-#     return acc, predicted_labels, response
-
 
 ### batch classify
 def batch_classify_with_rule(llm_model: str, rule: str, test_imgs: list[str], test_labels: list[int], batch_size: int = 10):
@@ -308,7 +251,7 @@ def batch_classify_with_rule(llm_model: str, rule: str, test_imgs: list[str], te
         
         # Build prompt for just this chunk
         prompt = build_classification_prompt(rule, chunk_imgs)
-        response = get_response(prompt, llm_model, reasoning_effort="low")    ### changes the reasoning effort for classification
+        response = get_response(prompt, llm_model, reasoning_effort="high")    ### changes the reasoning effort for classification
         raw_batch_responses.append({
             "batch_start": i,
             "batch_size": len(chunk_imgs),
@@ -335,8 +278,8 @@ def batch_classify_with_rule(llm_model: str, rule: str, test_imgs: list[str], te
     
     return accuracy, all_predicted_labels, raw_batch_responses
 
-### rule swap
 
+### rule swap
 def swap_rules_robust(rules_text: str) -> str:
     # 1. Regex to split the text into list of (Header, Content) tuples
     # Matches "Class X:" and the following text
@@ -365,6 +308,7 @@ def argparser():
     parser.add_argument('--rules', type=int, default=2, help="Number of LLM generated classification rules")
     parser.add_argument('--mode', type=str, default="rulebased", choices=["rulebased", "baseline", "noPrototype", "baselineNoPrototype"], help="Mode of the experiment.")
     parser.add_argument('--save_raw_outputs', action='store_true', help="Save raw model text outputs in separate txt files.")
+    parser.add_argument('--prompt_version', default="promptV2", help='Naming scheme to differentiate experiments, promptV1')
     return parser.parse_args()
     
 if __name__ == '__main__':
@@ -401,7 +345,7 @@ if __name__ == '__main__':
                 }
         
         elif args.mode in ["rulebased", "noPrototype"]:
-            # generate one set of rules
+            # generate ruleset
             rule = extract_rule(args.llm, prot_img_simp, len(set(prot_labels)), args.rules)
             print("Extracted Rule:\n", rule)
             
