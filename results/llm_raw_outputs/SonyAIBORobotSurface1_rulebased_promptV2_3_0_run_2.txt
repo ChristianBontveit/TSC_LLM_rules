@@ -1,0 +1,138 @@
+dataset: SonyAIBORobotSurface1
+mode: rulebased
+classifier: miniRocket
+llm: gpt-5.1
+k: 3
+rules: 0
+repetition: 2
+
+=== Rule Generation Response ===
+Final rules:
+Class 0:
+R1: Early region shows a sharp spike or strong fluctuation that quickly drops to a low value, not a smooth steady fall.
+R2: Late region does not show a long, smooth recovery from a deep minimum; values stay moderate without a pronounced V-shaped rebound.
+
+Class 1:
+R1: Early region follows a mostly smooth, strong downward trend from a high start to a clear low, without an early tall spike.
+R2: Late region contains a deep trough followed by a clear, smooth rising tail from low back to moderate or high values.
+
+=== Classification Batch start=0 size=10 ===
+1. Predicted class: 0  
+2. Predicted class: 1  
+3. Predicted class: 1  
+4. Predicted class: 0  
+5. Predicted class: 1  
+6. Predicted class: 1  
+7. Predicted class: 0  
+8. Predicted class: 0  
+9. Predicted class: 0  
+10. Predicted class: 0
+
+=== Classification Batch start=10 size=10 ===
+1. Predicted class: 0  
+2. Predicted class: 0  
+3. Predicted class: 0  
+4. Predicted class: 0  
+5. Predicted class: 0  
+6. Predicted class: 0  
+7. Predicted class: 0  
+8. Predicted class: 0  
+9. Predicted class: 0  
+10. Predicted class: 0
+
+=== Classification Batch start=20 size=10 ===
+1. Predicted class: 0  
+2. Predicted class: 0  
+3. Predicted class: 0  
+4. Predicted class: 0  
+5. Predicted class: 0  
+6. Predicted class: 0  
+7. Predicted class: 0  
+8. Predicted class: 0  
+9. Predicted class: 0  
+10. Predicted class: 0
+
+=== Classification Batch start=30 size=10 ===
+1. Predicted class: 0  
+2. Predicted class: 0  
+3. Predicted class: 0  
+4. Predicted class: 0  
+5. Predicted class: 1  
+6. Predicted class: 1  
+7. Predicted class: 1  
+8. Predicted class: 1  
+9. Predicted class: 1  
+10. Predicted class: 1
+
+=== Classification Batch start=40 size=10 ===
+1. Predicted class: 0  
+2. Predicted class: 0  
+3. Predicted class: 0  
+4. Predicted class: 0  
+5. Predicted class: 0  
+6. Predicted class: 0  
+7. Predicted class: 0  
+8. Predicted class: 0  
+9. Predicted class: 0  
+10. Predicted class: 0
+
+=== Classification Batch start=50 size=10 ===
+1. Predicted class: 0  
+2. Predicted class: 0  
+3. Predicted class: 0  
+4. Predicted class: 0  
+5. Predicted class: 0  
+6. Predicted class: 0  
+7. Predicted class: 0  
+8. Predicted class: 0  
+9. Predicted class: 0  
+10. Predicted class: 0
+
+=== Classification Batch start=60 size=10 ===
+Instance 1: Predicted class: 0  
+Instance 2: Predicted class: 0  
+Instance 3: Predicted class: 0  
+Instance 4: Predicted class: 0  
+Instance 5: Predicted class: 0  
+Instance 6: Predicted class: 0  
+Instance 7: Predicted class: 0  
+Instance 8: Predicted class: 1  
+Instance 9: Predicted class: 0  
+Instance 10: Predicted class: 0
+
+=== Classification Batch start=70 size=10 ===
+1. Predicted class: 0  
+2. Predicted class: 0  
+3. Predicted class: 0  
+4. Predicted class: 1  
+5. Predicted class: 0  
+6. Predicted class: 1  
+7. Predicted class: 0  
+8. Predicted class: 1  
+9. Predicted class: 1  
+10. Predicted class: 1
+
+=== Classification Batch start=80 size=10 ===
+1. Predicted class: 0  
+2. Predicted class: 1  
+3. Predicted class: 0  
+4. Predicted class: 0  
+5. Predicted class: 0  
+6. Predicted class: 0  
+7. Predicted class: 1  
+8. Predicted class: 1  
+9. Predicted class: 0  
+10. Predicted class: 0
+
+=== Classification Batch start=90 size=10 ===
+1. Predicted class: 0  
+2. Predicted class: 0  
+3. Predicted class: 0  
+4. Predicted class: 0  
+5. Predicted class: 0  
+6. Predicted class: 0  
+7. Predicted class: 0  
+8. Predicted class: 0  
+9. Predicted class: 0  
+10. Predicted class: 0
+

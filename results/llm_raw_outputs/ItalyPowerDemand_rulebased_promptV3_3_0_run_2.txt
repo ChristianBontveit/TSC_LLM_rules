@@ -1,0 +1,137 @@
+dataset: ItalyPowerDemand
+mode: rulebased
+classifier: miniRocket
+llm: gpt-5.1
+k: 3
+rules: 0
+repetition: 2
+
+=== Rule Generation Response ===
+Class 0:
+R1: Middle-to-late region shows two strong peaks of similar height, separated by a clear dip (M‑shaped second half).
+R2: After the second late peak, the series has a steadily falling tail with no new high peak near the very end.
+
+Class 1:
+R1: A single dominant peak appears around the middle, and the later values are flat or gently decreasing, without a second peak close in height to the main one.
+R2: The highest value is a narrow spike in the last few points, much higher than the preceding late values.
+
+=== Classification Batch start=0 size=10 ===
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1
+
+=== Classification Batch start=10 size=10 ===
+1. Predicted class: 0  
+2. Predicted class: 1  
+3. Predicted class: 1  
+4. Predicted class: 0  
+5. Predicted class: 0  
+6. Predicted class: 1  
+7. Predicted class: 1  
+8. Predicted class: 0  
+9. Predicted class: 1  
+10. Predicted class: 0
+
+=== Classification Batch start=20 size=10 ===
+1. Predicted class: 0  
+2. Predicted class: 0  
+3. Predicted class: 0  
+4. Predicted class: 1  
+5. Predicted class: 0  
+6. Predicted class: 0  
+7. Predicted class: 0  
+8. Predicted class: 1  
+9. Predicted class: 1  
+10. Predicted class: 0
+
+=== Classification Batch start=30 size=10 ===
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1
+
+=== Classification Batch start=40 size=10 ===
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0
+
+=== Classification Batch start=50 size=10 ===
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1
+
+=== Classification Batch start=60 size=10 ===
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0
+
+=== Classification Batch start=70 size=10 ===
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1
+
+=== Classification Batch start=80 size=10 ===
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 1  
+Predicted class: 1
+
+=== Classification Batch start=90 size=10 ===
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 1  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0  
+Predicted class: 0
+

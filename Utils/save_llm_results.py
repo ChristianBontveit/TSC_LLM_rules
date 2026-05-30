@@ -46,7 +46,7 @@ def save_results(args, rule_txt, acc, preds, test_ts_labels, rand_ts_idx, repeti
 
     filename = os.path.join(
         output_dir,
-        f"{args.dataset}_{args.mode}_{args.k}_{args.rules}_llm_results.jsonl",
+        f"{args.dataset}_{args.mode}_{args.prompt_version}_{args.k}_{args.rules}_llm_results.jsonl",
     )
 
     with open(filename, "a") as f:
@@ -59,10 +59,10 @@ def save_raw_outputs_txt(args, raw_outputs, repetition: int):
 
     filename = os.path.join(
         output_dir,
-        f"{args.dataset}_{args.mode}_{args.k}_{args.rules}_run_{repetition}.txt",
+        f"{args.dataset}_{args.mode}_{args.prompt_version}_{args.k}_{args.rules}_run_{repetition}.txt",
     )
 
-    with open(filename, "w") as f:
+    with open(filename, "w", encoding="utf-8") as f:
         f.write(f"dataset: {args.dataset}\n")
         f.write(f"mode: {args.mode}\n")
         f.write(f"classifier: {args.classifier}\n")
