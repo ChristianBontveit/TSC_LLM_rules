@@ -1,0 +1,1194 @@
+[
+  {
+    "group": "A",
+    "subject_number": 1,
+    "subject_code": "A01",
+    "tasks": [
+      {
+        "task_number": 1,
+        "dataset": "Chinatown",
+        "condition": "prototypes_only",
+        "best_promptv3_accuracy": 1.0,
+        "best_promptv3_repetition": 1,
+        "prototype_ids_by_label": {
+          "0": [
+            7,
+            1,
+            5
+          ],
+          "1": [
+            18,
+            11,
+            15
+          ]
+        },
+        "rules_by_label": {
+          "0": [
+            "R1: In the early region, average values are clearly above zero (around 0.1 or higher); the series starts at a moderate level before dipping.",
+            "R2: Within the early region, there is a strong downward drop (the first value is at least about 0.15 higher than the early minimum), giving a pronounced descending shoulder."
+          ],
+          "1": [
+            "R1: In the early region, average values stay very close to zero (below about 0.1); the series begins on a low baseline.",
+            "R2: Within the early region, variation is small (the difference between highest and lowest early values is less than about 0.15), so this part appears almost flat near zero."
+          ]
+        },
+        "test_instances": [
+          {
+            "ts_idx": 126,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 114,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 44,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 71,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 238,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 196,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 28,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 203,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 141,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 79,
+            "classifier_label": 0
+          }
+        ]
+      },
+      {
+        "task_number": 2,
+        "dataset": "ECG200",
+        "condition": "prototypes_plus_rules",
+        "best_promptv3_accuracy": 0.74,
+        "best_promptv3_repetition": 2,
+        "prototype_ids_by_label": {
+          "0": [
+            18,
+            61,
+            43
+          ],
+          "1": [
+            32,
+            25,
+            55
+          ]
+        },
+        "rules_by_label": {
+          "0": [
+            "R1: After the early valley, the early middle region stays close to that minimum and well below the later plateau, forming a long, gradual upward slope (slow recovery).",
+            "R2: The late region sits at or above the middle level, often showing an upward bump near the end rather than a smooth sustained decline."
+          ],
+          "1": [
+            "R1: After the early valley, the early middle region jumps quickly up to near the plateau level, forming a sharp upward step (fast recovery).",
+            "R2: From the middle into the late region the series tends to drift downward, or any late peak is brief and followed by a return to the middle plateau level."
+          ]
+        },
+        "test_instances": [
+          {
+            "ts_idx": 43,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 69,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 22,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 54,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 16,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 32,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 25,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 28,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 15,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 37,
+            "classifier_label": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "group": "A",
+    "subject_number": 2,
+    "subject_code": "A02",
+    "tasks": [
+      {
+        "task_number": 1,
+        "dataset": "Chinatown",
+        "condition": "prototypes_only",
+        "best_promptv3_accuracy": 1.0,
+        "best_promptv3_repetition": 1,
+        "prototype_ids_by_label": {
+          "0": [
+            7,
+            1,
+            5
+          ],
+          "1": [
+            18,
+            11,
+            15
+          ]
+        },
+        "rules_by_label": {
+          "0": [
+            "R1: In the early region, average values are clearly above zero (around 0.1 or higher); the series starts at a moderate level before dipping.",
+            "R2: Within the early region, there is a strong downward drop (the first value is at least about 0.15 higher than the early minimum), giving a pronounced descending shoulder."
+          ],
+          "1": [
+            "R1: In the early region, average values stay very close to zero (below about 0.1); the series begins on a low baseline.",
+            "R2: Within the early region, variation is small (the difference between highest and lowest early values is less than about 0.15), so this part appears almost flat near zero."
+          ]
+        },
+        "test_instances": [
+          {
+            "ts_idx": 126,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 114,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 44,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 71,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 238,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 196,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 28,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 203,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 141,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 79,
+            "classifier_label": 0
+          }
+        ]
+      },
+      {
+        "task_number": 2,
+        "dataset": "ECG200",
+        "condition": "prototypes_plus_rules",
+        "best_promptv3_accuracy": 0.74,
+        "best_promptv3_repetition": 2,
+        "prototype_ids_by_label": {
+          "0": [
+            18,
+            61,
+            43
+          ],
+          "1": [
+            32,
+            25,
+            55
+          ]
+        },
+        "rules_by_label": {
+          "0": [
+            "R1: After the early valley, the early middle region stays close to that minimum and well below the later plateau, forming a long, gradual upward slope (slow recovery).",
+            "R2: The late region sits at or above the middle level, often showing an upward bump near the end rather than a smooth sustained decline."
+          ],
+          "1": [
+            "R1: After the early valley, the early middle region jumps quickly up to near the plateau level, forming a sharp upward step (fast recovery).",
+            "R2: From the middle into the late region the series tends to drift downward, or any late peak is brief and followed by a return to the middle plateau level."
+          ]
+        },
+        "test_instances": [
+          {
+            "ts_idx": 43,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 69,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 22,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 54,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 16,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 32,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 25,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 28,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 15,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 37,
+            "classifier_label": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "group": "B",
+    "subject_number": 1,
+    "subject_code": "B01",
+    "tasks": [
+      {
+        "task_number": 1,
+        "dataset": "Chinatown",
+        "condition": "prototypes_plus_rules",
+        "best_promptv3_accuracy": 1.0,
+        "best_promptv3_repetition": 1,
+        "prototype_ids_by_label": {
+          "0": [
+            7,
+            1,
+            5
+          ],
+          "1": [
+            18,
+            11,
+            15
+          ]
+        },
+        "rules_by_label": {
+          "0": [
+            "R1: In the early region, average values are clearly above zero (around 0.1 or higher); the series starts at a moderate level before dipping.",
+            "R2: Within the early region, there is a strong downward drop (the first value is at least about 0.15 higher than the early minimum), giving a pronounced descending shoulder."
+          ],
+          "1": [
+            "R1: In the early region, average values stay very close to zero (below about 0.1); the series begins on a low baseline.",
+            "R2: Within the early region, variation is small (the difference between highest and lowest early values is less than about 0.15), so this part appears almost flat near zero."
+          ]
+        },
+        "test_instances": [
+          {
+            "ts_idx": 126,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 114,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 44,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 71,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 238,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 196,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 28,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 203,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 141,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 79,
+            "classifier_label": 0
+          }
+        ]
+      },
+      {
+        "task_number": 2,
+        "dataset": "ECG200",
+        "condition": "prototypes_only",
+        "best_promptv3_accuracy": 0.74,
+        "best_promptv3_repetition": 2,
+        "prototype_ids_by_label": {
+          "0": [
+            18,
+            61,
+            43
+          ],
+          "1": [
+            32,
+            25,
+            55
+          ]
+        },
+        "rules_by_label": {
+          "0": [
+            "R1: After the early valley, the early middle region stays close to that minimum and well below the later plateau, forming a long, gradual upward slope (slow recovery).",
+            "R2: The late region sits at or above the middle level, often showing an upward bump near the end rather than a smooth sustained decline."
+          ],
+          "1": [
+            "R1: After the early valley, the early middle region jumps quickly up to near the plateau level, forming a sharp upward step (fast recovery).",
+            "R2: From the middle into the late region the series tends to drift downward, or any late peak is brief and followed by a return to the middle plateau level."
+          ]
+        },
+        "test_instances": [
+          {
+            "ts_idx": 43,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 69,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 22,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 54,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 16,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 32,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 25,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 28,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 15,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 37,
+            "classifier_label": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "group": "B",
+    "subject_number": 2,
+    "subject_code": "B02",
+    "tasks": [
+      {
+        "task_number": 1,
+        "dataset": "Chinatown",
+        "condition": "prototypes_plus_rules",
+        "best_promptv3_accuracy": 1.0,
+        "best_promptv3_repetition": 1,
+        "prototype_ids_by_label": {
+          "0": [
+            7,
+            1,
+            5
+          ],
+          "1": [
+            18,
+            11,
+            15
+          ]
+        },
+        "rules_by_label": {
+          "0": [
+            "R1: In the early region, average values are clearly above zero (around 0.1 or higher); the series starts at a moderate level before dipping.",
+            "R2: Within the early region, there is a strong downward drop (the first value is at least about 0.15 higher than the early minimum), giving a pronounced descending shoulder."
+          ],
+          "1": [
+            "R1: In the early region, average values stay very close to zero (below about 0.1); the series begins on a low baseline.",
+            "R2: Within the early region, variation is small (the difference between highest and lowest early values is less than about 0.15), so this part appears almost flat near zero."
+          ]
+        },
+        "test_instances": [
+          {
+            "ts_idx": 126,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 114,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 44,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 71,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 238,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 196,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 28,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 203,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 141,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 79,
+            "classifier_label": 0
+          }
+        ]
+      },
+      {
+        "task_number": 2,
+        "dataset": "ECG200",
+        "condition": "prototypes_only",
+        "best_promptv3_accuracy": 0.74,
+        "best_promptv3_repetition": 2,
+        "prototype_ids_by_label": {
+          "0": [
+            18,
+            61,
+            43
+          ],
+          "1": [
+            32,
+            25,
+            55
+          ]
+        },
+        "rules_by_label": {
+          "0": [
+            "R1: After the early valley, the early middle region stays close to that minimum and well below the later plateau, forming a long, gradual upward slope (slow recovery).",
+            "R2: The late region sits at or above the middle level, often showing an upward bump near the end rather than a smooth sustained decline."
+          ],
+          "1": [
+            "R1: After the early valley, the early middle region jumps quickly up to near the plateau level, forming a sharp upward step (fast recovery).",
+            "R2: From the middle into the late region the series tends to drift downward, or any late peak is brief and followed by a return to the middle plateau level."
+          ]
+        },
+        "test_instances": [
+          {
+            "ts_idx": 43,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 69,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 22,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 54,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 16,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 32,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 25,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 28,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 15,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 37,
+            "classifier_label": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "group": "C",
+    "subject_number": 1,
+    "subject_code": "C01",
+    "tasks": [
+      {
+        "task_number": 1,
+        "dataset": "ECG200",
+        "condition": "prototypes_only",
+        "best_promptv3_accuracy": 0.74,
+        "best_promptv3_repetition": 2,
+        "prototype_ids_by_label": {
+          "0": [
+            18,
+            61,
+            43
+          ],
+          "1": [
+            32,
+            25,
+            55
+          ]
+        },
+        "rules_by_label": {
+          "0": [
+            "R1: After the early valley, the early middle region stays close to that minimum and well below the later plateau, forming a long, gradual upward slope (slow recovery).",
+            "R2: The late region sits at or above the middle level, often showing an upward bump near the end rather than a smooth sustained decline."
+          ],
+          "1": [
+            "R1: After the early valley, the early middle region jumps quickly up to near the plateau level, forming a sharp upward step (fast recovery).",
+            "R2: From the middle into the late region the series tends to drift downward, or any late peak is brief and followed by a return to the middle plateau level."
+          ]
+        },
+        "test_instances": [
+          {
+            "ts_idx": 43,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 69,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 22,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 54,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 16,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 32,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 25,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 28,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 15,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 37,
+            "classifier_label": 0
+          }
+        ]
+      },
+      {
+        "task_number": 2,
+        "dataset": "Chinatown",
+        "condition": "prototypes_plus_rules",
+        "best_promptv3_accuracy": 1.0,
+        "best_promptv3_repetition": 1,
+        "prototype_ids_by_label": {
+          "0": [
+            7,
+            1,
+            5
+          ],
+          "1": [
+            18,
+            11,
+            15
+          ]
+        },
+        "rules_by_label": {
+          "0": [
+            "R1: In the early region, average values are clearly above zero (around 0.1 or higher); the series starts at a moderate level before dipping.",
+            "R2: Within the early region, there is a strong downward drop (the first value is at least about 0.15 higher than the early minimum), giving a pronounced descending shoulder."
+          ],
+          "1": [
+            "R1: In the early region, average values stay very close to zero (below about 0.1); the series begins on a low baseline.",
+            "R2: Within the early region, variation is small (the difference between highest and lowest early values is less than about 0.15), so this part appears almost flat near zero."
+          ]
+        },
+        "test_instances": [
+          {
+            "ts_idx": 126,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 114,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 44,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 71,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 238,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 196,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 28,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 203,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 141,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 79,
+            "classifier_label": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "group": "C",
+    "subject_number": 2,
+    "subject_code": "C02",
+    "tasks": [
+      {
+        "task_number": 1,
+        "dataset": "ECG200",
+        "condition": "prototypes_only",
+        "best_promptv3_accuracy": 0.74,
+        "best_promptv3_repetition": 2,
+        "prototype_ids_by_label": {
+          "0": [
+            18,
+            61,
+            43
+          ],
+          "1": [
+            32,
+            25,
+            55
+          ]
+        },
+        "rules_by_label": {
+          "0": [
+            "R1: After the early valley, the early middle region stays close to that minimum and well below the later plateau, forming a long, gradual upward slope (slow recovery).",
+            "R2: The late region sits at or above the middle level, often showing an upward bump near the end rather than a smooth sustained decline."
+          ],
+          "1": [
+            "R1: After the early valley, the early middle region jumps quickly up to near the plateau level, forming a sharp upward step (fast recovery).",
+            "R2: From the middle into the late region the series tends to drift downward, or any late peak is brief and followed by a return to the middle plateau level."
+          ]
+        },
+        "test_instances": [
+          {
+            "ts_idx": 43,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 69,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 22,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 54,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 16,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 32,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 25,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 28,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 15,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 37,
+            "classifier_label": 0
+          }
+        ]
+      },
+      {
+        "task_number": 2,
+        "dataset": "Chinatown",
+        "condition": "prototypes_plus_rules",
+        "best_promptv3_accuracy": 1.0,
+        "best_promptv3_repetition": 1,
+        "prototype_ids_by_label": {
+          "0": [
+            7,
+            1,
+            5
+          ],
+          "1": [
+            18,
+            11,
+            15
+          ]
+        },
+        "rules_by_label": {
+          "0": [
+            "R1: In the early region, average values are clearly above zero (around 0.1 or higher); the series starts at a moderate level before dipping.",
+            "R2: Within the early region, there is a strong downward drop (the first value is at least about 0.15 higher than the early minimum), giving a pronounced descending shoulder."
+          ],
+          "1": [
+            "R1: In the early region, average values stay very close to zero (below about 0.1); the series begins on a low baseline.",
+            "R2: Within the early region, variation is small (the difference between highest and lowest early values is less than about 0.15), so this part appears almost flat near zero."
+          ]
+        },
+        "test_instances": [
+          {
+            "ts_idx": 126,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 114,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 44,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 71,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 238,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 196,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 28,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 203,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 141,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 79,
+            "classifier_label": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "group": "D",
+    "subject_number": 1,
+    "subject_code": "D01",
+    "tasks": [
+      {
+        "task_number": 1,
+        "dataset": "ECG200",
+        "condition": "prototypes_plus_rules",
+        "best_promptv3_accuracy": 0.74,
+        "best_promptv3_repetition": 2,
+        "prototype_ids_by_label": {
+          "0": [
+            18,
+            61,
+            43
+          ],
+          "1": [
+            32,
+            25,
+            55
+          ]
+        },
+        "rules_by_label": {
+          "0": [
+            "R1: After the early valley, the early middle region stays close to that minimum and well below the later plateau, forming a long, gradual upward slope (slow recovery).",
+            "R2: The late region sits at or above the middle level, often showing an upward bump near the end rather than a smooth sustained decline."
+          ],
+          "1": [
+            "R1: After the early valley, the early middle region jumps quickly up to near the plateau level, forming a sharp upward step (fast recovery).",
+            "R2: From the middle into the late region the series tends to drift downward, or any late peak is brief and followed by a return to the middle plateau level."
+          ]
+        },
+        "test_instances": [
+          {
+            "ts_idx": 43,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 69,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 22,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 54,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 16,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 32,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 25,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 28,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 15,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 37,
+            "classifier_label": 0
+          }
+        ]
+      },
+      {
+        "task_number": 2,
+        "dataset": "Chinatown",
+        "condition": "prototypes_only",
+        "best_promptv3_accuracy": 1.0,
+        "best_promptv3_repetition": 1,
+        "prototype_ids_by_label": {
+          "0": [
+            7,
+            1,
+            5
+          ],
+          "1": [
+            18,
+            11,
+            15
+          ]
+        },
+        "rules_by_label": {
+          "0": [
+            "R1: In the early region, average values are clearly above zero (around 0.1 or higher); the series starts at a moderate level before dipping.",
+            "R2: Within the early region, there is a strong downward drop (the first value is at least about 0.15 higher than the early minimum), giving a pronounced descending shoulder."
+          ],
+          "1": [
+            "R1: In the early region, average values stay very close to zero (below about 0.1); the series begins on a low baseline.",
+            "R2: Within the early region, variation is small (the difference between highest and lowest early values is less than about 0.15), so this part appears almost flat near zero."
+          ]
+        },
+        "test_instances": [
+          {
+            "ts_idx": 126,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 114,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 44,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 71,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 238,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 196,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 28,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 203,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 141,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 79,
+            "classifier_label": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "group": "D",
+    "subject_number": 2,
+    "subject_code": "D02",
+    "tasks": [
+      {
+        "task_number": 1,
+        "dataset": "ECG200",
+        "condition": "prototypes_plus_rules",
+        "best_promptv3_accuracy": 0.74,
+        "best_promptv3_repetition": 2,
+        "prototype_ids_by_label": {
+          "0": [
+            18,
+            61,
+            43
+          ],
+          "1": [
+            32,
+            25,
+            55
+          ]
+        },
+        "rules_by_label": {
+          "0": [
+            "R1: After the early valley, the early middle region stays close to that minimum and well below the later plateau, forming a long, gradual upward slope (slow recovery).",
+            "R2: The late region sits at or above the middle level, often showing an upward bump near the end rather than a smooth sustained decline."
+          ],
+          "1": [
+            "R1: After the early valley, the early middle region jumps quickly up to near the plateau level, forming a sharp upward step (fast recovery).",
+            "R2: From the middle into the late region the series tends to drift downward, or any late peak is brief and followed by a return to the middle plateau level."
+          ]
+        },
+        "test_instances": [
+          {
+            "ts_idx": 43,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 69,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 22,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 54,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 16,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 32,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 25,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 28,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 15,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 37,
+            "classifier_label": 0
+          }
+        ]
+      },
+      {
+        "task_number": 2,
+        "dataset": "Chinatown",
+        "condition": "prototypes_only",
+        "best_promptv3_accuracy": 1.0,
+        "best_promptv3_repetition": 1,
+        "prototype_ids_by_label": {
+          "0": [
+            7,
+            1,
+            5
+          ],
+          "1": [
+            18,
+            11,
+            15
+          ]
+        },
+        "rules_by_label": {
+          "0": [
+            "R1: In the early region, average values are clearly above zero (around 0.1 or higher); the series starts at a moderate level before dipping.",
+            "R2: Within the early region, there is a strong downward drop (the first value is at least about 0.15 higher than the early minimum), giving a pronounced descending shoulder."
+          ],
+          "1": [
+            "R1: In the early region, average values stay very close to zero (below about 0.1); the series begins on a low baseline.",
+            "R2: Within the early region, variation is small (the difference between highest and lowest early values is less than about 0.15), so this part appears almost flat near zero."
+          ]
+        },
+        "test_instances": [
+          {
+            "ts_idx": 126,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 114,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 44,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 71,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 238,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 196,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 28,
+            "classifier_label": 1
+          },
+          {
+            "ts_idx": 203,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 141,
+            "classifier_label": 0
+          },
+          {
+            "ts_idx": 79,
+            "classifier_label": 0
+          }
+        ]
+      }
+    ]
+  }
+]
